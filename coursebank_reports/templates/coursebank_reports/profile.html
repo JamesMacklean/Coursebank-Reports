@@ -1,0 +1,49 @@
+{% extends "main_django.html" %}
+
+{% comment %}
+User:
+  -username
+  -email
+  -is_staff
+  -is_active
+  -last_login
+  -date_joined
+
+  UserProfile:
+  -user
+  -name
+  -year_of_birth
+    -age
+  -gender
+    -gender_display
+  -level_of_education
+    -level_of_education_display
+  -country
+  -allow_certificate
+{% endcomment %}
+
+{% block body %}
+<div class="bootstrap-iso">
+
+<div class="container">
+ <div class="mx-auto">
+   <div class="h3">Users Profile</div>
+   <ul class="list-group">
+     <li class="list-group-item">
+       Username:
+       <span class="badge badge-info">{{ user.user.username }}</span>
+     </li>
+     <li class="list-group-item">
+       Email:
+       <span class="badge badge-info">{{ user.user.email }}</span>
+     </li>
+     <li class="list-group-item">
+       Name:
+       <span class="badge badge-info">{{ user.name }}</span>
+     </li>
+   </ul>
+ </div>
+</div>
+
+</div>
+{% endblock %}

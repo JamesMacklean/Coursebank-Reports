@@ -11,72 +11,43 @@ from django.views.generic.detail import DetailView
 
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 from student.models import Registration, UserProfile, CourseEnrollment
+from course_modes.models import CourseMode
 
 User = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
+
 
 @staff_member_required
 def index_reports(request):
     """
     View for overall reports
     """
-    registrations_url = reverse('registration-reports')
-    profiles_url = reverse('profile-reports')
-    courses_url = reverse('course-reports')
+    registrations = Registration.objects.all()
+    users = User.objects.all()
+    active_users = users.filter(is_active=True)
+    inactive_users = users.filter(is_active=False)
+    non_staff_users = active_users.filter(is_staff=False)
+    staff_users = active_users.filter(is_staff=True)
+    total_enrollments = CourseEnrollment.objects.all()
+    verified_enrollments = enrollments.filter(mode='verified')
+    audit_enrollments = enrollments.filter(mode='audit')
+    courses = CourseOverview.objects.all()
+    course_modes = CourseMode.objects.all()
+    verified_courses = course_modes.filter(mode_slug='verified')
+
     context = {
-        'registrations_url': registrations_url,
-        'profiles_url': profiles_url,
-        'courses_url': courses_url,
+        'registration_count': registrations.count(),
+        'total_user_count': users.count(),
+        'active_user_count': active_users.count(),
+        'inactive_user_count': inactive_users.count(),
+        'total_enrollment_count': total_enrollments.count(),
+        'audit_enrollment_count': audit_enrollments.count(),
+        'verified_enrollment_count': verified_enrollments.count(),
+        'non_staff_user_count': non_staff_users.count(),
+        'staff_user_count': staff_users.count(),
+        'course_count': courses.count(),
+        'verified_courses_count': verified_courses.count(),
     }
     return render(request, 'coursebank_reports/reports.html', context)
-
-
-class RegistrationListView(ListView):
-    """
-    User:
-    -username
-    -email
-    -is_staff
-    -is_active
-    -last_login
-    -date_joined
-
-    Registration:
-    -user
-    """
-    model = Registration
-    template_name = "coursebank_reports/registrations.html"
-    context_object_name = 'registration'
-    paginate_by = 100
-
-    @staff_member_required
-    def get_context_data(self, **kwargs):
-        context = super(RegistrationListView, self).get_context_data(**kwargs)
-        return context
-
-
-class ProfileListView(ListView):
-    """
-    UserProfile:
-    -user
-    -name
-    -year_of_birth
-    	-age
-    -gender
-    	-gender_display
-    -level_of_education
-    	-level_of_education_display
-    -country
-    -allow_certificate
-    """
-    model = UserProfile
-    template_name = "coursebank_reports/profles.html"
-    context_object_name = 'profile'
-    paginate_by = 100
-
-    @staff_member_required
-    def get_context_data(self, **kwargs):
-        context = super(ProfileListView, self).get_context_data(**kwargs)
-        return context
 
 
 class CourseListView(ListView):
@@ -88,7 +59,7 @@ class CourseListView(ListView):
     @staff_member_required
     def get_context_data(self, **kwargs):
         context = super(CourseListView, self).get_context_data(**kwargs)
-        queryset = get_queryset()
+        queryset = self.get_queryset()
         context['count'] = queryset.count()
         return context
 
@@ -100,7 +71,7 @@ class EnrollmentListView(ListView):
     paginate_by = 100
 
     def get_queryset(self):
-        querset = CourseEnrollment.objects.all()
+        queryset = CourseEnrollment.objects.all()
         course_id = self.kwargs.get('course_id', 'all')
         if course_id != 'all':
             queryset = queryset.filter(course_id=course_id)
@@ -173,7 +144,7 @@ def course_enrollments_reports(request, course_id):
     	-num_enrolled_in(course_id)
     	-num_enrolled_exclude_admins(course_id)
     	-is_course_full::bool
-    	-users_enrolled_in(course_id, include_inactive=False)::<querset:Users>
+    	-users_enrolled_in(course_id, include_inactive=False)::<queryset:Users>
     	-enrollment_counts(course_id)::<dict:{'total':<int>,'mode':<int>,..}
     """
     try:
@@ -280,3 +251,37 @@ def enrollments_users_reports(request, course_id):
         'page_range': page_range
     }
     return render(request, 'coursebank_reports/enrollments-users.html', context)
+
+
+@staff_member_required
+class UserProfileDetailView(DetailView):
+    """
+    User:
+    -username
+    -email
+    -is_staff
+    -is_active
+    -last_login
+    -date_joined
+
+    UserProfile:
+    -user
+    -name
+    -year_of_birth
+    	-age
+    -gender
+    	-gender_display
+    -level_of_education
+    	-level_of_education_display
+    -country
+    -allow_certificate
+    """
+    model = UserProfile
+    template_name = 'coursebank_reports/profile.html'
+    context_object_name = 'user'
+    slug_field = 'user__id'
+    slug_url_kwarg = 'id'
+
+    def get_context_data(self, **kwargs):
+        context = super(UserProfileDetailView, self).get_context_data(**kwargs)
+        return context

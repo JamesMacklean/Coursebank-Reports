@@ -6,18 +6,18 @@
 <ul>
 {% for course in courses %}
     <li>
-      <ul>
-        <li>
+      <ul class="list-group">
+        <li class="list-group-item">
           Course Org: {{ course.display_org_with_default }}
         </li>
-        <li>
+        <li class="list-group-item">
           Course Name: {{ course.display_name }}
         </li>
-        <li>
+        <li class="list-group-item">
           Course ID: {{ course.course_id }}
         </li>
-        <li>
-          <a href="/reports/course/{{ course.id }}/enrollments/">
+        <li class="list-group-item">
+          <a href="{% url 'course-enrollments-reports' course_id=course.id %}">
             View Enrollments
           </a>
         </li>

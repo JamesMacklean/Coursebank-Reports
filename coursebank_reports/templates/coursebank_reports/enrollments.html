@@ -1,12 +1,12 @@
 {% extends "main_django.html" %}
 
-{% block body %}
-<div class="bootstrap-iso">
-
-<!--
+{% comment %}
     'course': course,
     'enrollment_list': enrollment_list,
--->
+{% endcomment %}
+
+{% block body %}
+<div class="bootstrap-iso">
 
 <h1>Course Enrollments</h1>
 <h3>Course Name: {{ course.display_name }}</h3>
@@ -51,7 +51,7 @@
   <tbody>
     {% for enrollment in enrollment_list %}
     <tr>
-      <td><a href="">{{ enrollment.user.username }}</a></td>
+      <td><a href="{% url 'course-enrollments-user-detail' course_id=course.id id=enrollment.user.id %}">{{ enrollment.user.username }}</a></td>
       <td>{{ enrollment.user.email }}</td>
       <td>{{ enrollment.mode }}</td>
       <td>{{ enrollment.is_active }}</td>

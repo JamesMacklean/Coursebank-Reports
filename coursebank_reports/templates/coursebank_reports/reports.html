@@ -1,0 +1,94 @@
+{% extends "main_django.html" %}
+
+{% comment %}
+'registration_count': registrations.count(),
+'total_user_count': users.count(),
+'active_user_count': active_users.count(),
+'inactive_user_count': inactive_users.count(),
+'total_enrollment_count': total_enrollments.count(),
+'audit_enrollment_count': audit_enrollments.count(),
+'verified_enrollment_count': verified_enrollments.count(),
+'non_staff_user_count': non_staff_users.count(),
+'staff_user_count': staff_users.count(),
+'course_count': courses.count(),
+'verified_courses_count': verified_courses.count(),
+{% endcomment %}
+
+{% block body %}
+<div class="bootstrap-iso">
+
+<h1>Coursebank Reports</h1>
+
+<div class="row">
+
+  <h3>Quick Report Totals:</h3>
+
+  <div class="col col-4 col-sm-4">
+    <h5>User Reports:</h5>
+    <ul class="list-group">
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Total Registrations:
+        <span class="badge badge-primary badge-pill">{{ registration_count }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Total Users:
+        <span class="badge badge-primary badge-pill">{{ total_user_count }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Total Active Users:
+        <span class="badge badge-primary badge-pill">{{ active_user_count }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Total Inactive Users:
+        <span class="badge badge-primary badge-pill">{{ inactive_user_count }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Total Non-Staff Users:
+        <span class="badge badge-primary badge-pill">{{ non_staff_user_count }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Total Staff Users:
+        <span class="badge badge-primary badge-pill">{{ staff_user_count }}</span>
+      </li>
+    </ul>
+  </div>
+  <div class="col col-4 col-sm-4">
+    <h5>Course Reports:</h5>
+    <div class="h5">
+      <a href="{% url 'course-reports' %}" class="btn btn-primary">View enrollment reports</a>
+    </div>
+    <ul class="list-group">
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Total Enrollments:
+        <span class="badge badge-primary badge-pill">{{ total_enrollment_count }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Total Audit Enrollments:
+        <span class="badge badge-primary badge-pill">{{ audit_enrollment_count }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Total Verified Enrollments:
+        <span class="badge badge-primary badge-pill">{{ verified_enrollment_count }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Total Courses:
+        <span class="badge badge-primary badge-pill">{{ course_count }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Total Verified Courses:
+        <span class="badge badge-primary badge-pill">{{ verified_courses_count }}</span>
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+<h3>Userful Links:</h3>
+<ul class="list-group">
+  <li class="list-group-item">
+    <a href="{% url 'course-reports' %}" class="btn btn-primary">View enrollment reports</a>
+  </li>
+</ul>
+
+</div>
+{% endblock %}
