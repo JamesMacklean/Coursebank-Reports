@@ -253,7 +253,6 @@ def enrollments_users_reports(request, course_id):
     return render(request, 'coursebank_reports/enrollments-users.html', context)
 
 
-@staff_member_required
 class UserProfileDetailView(DetailView):
     """
     User:
@@ -282,6 +281,7 @@ class UserProfileDetailView(DetailView):
     slug_field = 'user__id'
     slug_url_kwarg = 'id'
 
+    @staff_member_required
     def get_context_data(self, **kwargs):
         context = super(UserProfileDetailView, self).get_context_data(**kwargs)
         return context
