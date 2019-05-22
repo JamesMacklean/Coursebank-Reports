@@ -1,0 +1,89 @@
+{% extends "main_django.html" %}
+
+{% block body %}
+<div class="bootstrap-iso">
+
+<!--
+    'course': course,
+    'enrollment_list': enrollment_list,
+-->
+
+<h1>Course Enrollments</h1>
+<h3>Course Name: {{ course.display_name }}</h3>
+<h3>Course Partner: {{ course.display_org_with_default }}</h3>
+
+<h5>Filter:</h5>
+<form method="GET" action="" id="searchform">
+  {% csrf_token %}
+
+  <label for="filter_username">Username</label>
+  <input name="filter_username" type="text" value="{{ request.GET.filter_username }}" placeholder="sampleuser123"/>
+
+  <label for="filter_email">Email</label>
+  <input name="filter_email" type="text" value="{{ request.GET.filter_email }}" placeholder="email@example.com"/>
+
+  <label for="filter_mode">Mode</label>
+  <select name="filter_mode">
+    <option value="all">All</option>
+    <option value="audit">Audit</option>
+    <option value="verified">Verified</option>
+  </select>
+
+  <label for="filter_active">Active</label>
+  <select name="filter_active">
+    <option value="active">Active</option>
+    <option value="inactive">Inactive</option>
+    <option value="all">All</option>
+  </select>
+
+  <input type="submit" value="Filter" />
+</form>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Username</th>
+      <th scope="col">Email</th>
+      <th scope="col">Mode</th>
+      <th scope="col">Active</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for enrollment in enrollment_list %}
+    <tr>
+      <td><a href="">{{ enrollment.user.username }}</a></td>
+      <td>{{ enrollment.user.email }}</td>
+      <td>{{ enrollment.mode }}</td>
+      <td>{{ enrollment.is_active }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if enrollment_list.has_previous %}
+            <a class="btn btn-primary" href="?page=1">&laquo; first</a>
+            <a class="btn btn-primary" href="?page={{ enrollment_list.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ enrollment_list.number }} of {{ enrollment_list.paginator.num_pages }}.
+        </span>
+
+        {% if enrollment_list.has_next %}
+            <a class="btn btn-primary" href="?page={{ enrollment_list.next_page_number }}">next</a>
+            <a class="btn btn-primary" href="?page={{ enrollment_list.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+</div>
+{% endblock %}
