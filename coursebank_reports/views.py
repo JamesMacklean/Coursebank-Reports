@@ -59,6 +59,55 @@ class CourseListView(ListView):
     paginate_by = 100
 
 
+@staff_member_required
+def enrollment_list_view(request, course_id):
+    queryset = CourseEnrollment.objects.all()
+    try:
+        course = CourseOverview.get_from_id(course_id)
+    except CourseOverview.DoesNotExist:
+        raise Http404
+    queryset = queryset.filter(course=course)
+
+    filter_username = request.GET.get('filter_username')
+    if filter_username:
+        queryset = queryset.filter(user__username=filter_username)
+
+    filter_email = request.GET.get('filter_email')
+    if filter_email:
+        queryset = queryset.filter(user__email=filter_email)
+
+    filter_mode = request.GET.get('filter_mode')
+    if filter_mode:
+        if filter_mode != 'all':
+            queryset = queryset.filter(mode=filter_mode)
+
+    filter_active = request.GET.get('filter_active')
+    if filter_active == 'active':
+        queryset = queryset.filter(is_active=True)
+    elif filter_active == 'inactive':
+        queryset = queryset.filter(is_active=False)
+
+    if queryset.exists():
+        enrollment_count = queryset.count()
+    else:
+        enrollment_count = None
+
+    paginator = Paginator(queryset, 100)
+    page = request.GET.get('page')
+    enrollment_list = paginator.get_page(page)
+    num_pages = paginator.num_pages
+    page_range = paginator.page_range
+
+    context = {
+        'course': course,
+        'enrollment_list': enrollment_list,
+        'num_pages': num_pages,
+        'page_range': page_range
+        'enrollment_count': queryset.count()
+    }
+    return render(request, 'coursebank_reports/enrollments.html', context)
+
+
 @method_decorator(staff_member_required, name='dispatch')
 class EnrollmentListView(ListView):
     model = CourseEnrollment
@@ -74,22 +123,6 @@ class EnrollmentListView(ListView):
         except CourseOverview.DoesNotExist:
             raise Http404
         queryset = queryset.filter(course=course)
-
-        username = self.request.GET.get('username', None)
-        email = self.request.GET.get('email', None)
-        is_active = self.request.GET.get('is_active', None)
-        mode = self.request.GET.get('mode', None)
-        if username is not None:
-            queryset = queryset.filter(user__username=username)
-        if email is not None:
-            queryset = queryset.filter(user__email=email)
-        if is_active is not None:
-            if is_active.upper() == 'TRUE':
-                queryset = queryset.filter(is_active=True)
-            elif is_active.upper() == 'FALSE':
-                queryset = queryset.filter(is_active=False)
-        if mode is not None:
-            queryset = queryset.filter(mode=mode)
 
         filter_username = self.request.GET.get('filter_username')
         if filter_username:

@@ -1,8 +1,11 @@
 {% extends "main_django.html" %}
 
 {% comment %}
-    'course': course,
-    'enrollment_list': enrollment_list,
+'course': course,
+'enrollment_list': enrollment_list,
+'num_pages': num_pages,
+'page_range': page_range
+'enrollment_count': queryset.count()
 {% endcomment %}
 
 {% block body %}
@@ -48,7 +51,7 @@
     </tr>
   </thead>
   <tbody>
-    {% for enrollment in object_list %}
+    {% for enrollment in enrollment_list %}
     <tr>
       <td><a href="{% url 'course-enrollments-user-detail' course_id=course.id id=enrollment.user.id %}">{{ enrollment.user.username }}</a></td>
       <td>{{ enrollment.user.email }}</td>
@@ -68,18 +71,18 @@
 
 <div class="pagination">
     <span class="step-links">
-        {% if object_list.has_previous %}
+        {% if enrollment_list.has_previous %}
             <a class="btn btn-primary" href="?page=1">&laquo; first</a>
-            <a class="btn btn-primary" href="?page={{ object_list.previous_page_number }}">previous</a>
+            <a class="btn btn-primary" href="?page={{ enrollment_list.previous_page_number }}">previous</a>
         {% endif %}
 
         <span class="current">
-            Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+            Page {{ enrollment_list.number }} of {{ enrollment_list.paginator.num_pages }}.
         </span>
 
-        {% if object_list.has_next %}
-            <a class="btn btn-primary" href="?page={{ object_list.next_page_number }}">next</a>
-            <a class="btn btn-primary" href="?page={{ object_list.paginator.num_pages }}">last &raquo;</a>
+        {% if enrollment_list.has_next %}
+            <a class="btn btn-primary" href="?page={{ enrollment_list.next_page_number }}">next</a>
+            <a class="btn btn-primary" href="?page={{ enrollment_list.paginator.num_pages }}">last &raquo;</a>
         {% endif %}
     </span>
 </div>
