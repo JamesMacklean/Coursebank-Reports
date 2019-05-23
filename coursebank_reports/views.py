@@ -55,12 +55,12 @@ def index_reports(request):
 def course_list_view(request):
     queryset = CourseOverview.objects.all()
 
-    filter_org = request.GET.get('filter_org')
-    if filter_org:
+    filter_org = request.GET.get('filter_org', None)
+    if filter_org is not None:
         queryset = queryset.filter(org__contains=filter_org)
 
-    filter_display_name = request.GET.get('filter_display_name')
-    if filter_display_name:
+    filter_display_name = request.GET.get('filter_display_name', None)
+    if filter_display_name is not None:
         queryset = queryset.filter(display_name__contains=filter_display_name)
 
     if queryset.exists():
