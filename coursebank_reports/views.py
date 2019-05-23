@@ -90,7 +90,7 @@ def enrollment_list_view(request, course_id):
     if queryset.exists():
         enrollment_count = queryset.count()
     else:
-        enrollment_count = None
+        enrollment_count = 0
 
     paginator = Paginator(queryset, 100)
     page = request.GET.get('page')
@@ -98,11 +98,14 @@ def enrollment_list_view(request, course_id):
     num_pages = paginator.num_pages
     page_range = paginator.page_range
 
+    is_paginated = True if enrollment_count > 100 else False
+
     context = {
         'course': course,
         'enrollment_list': enrollment_list,
         'num_pages': num_pages,
-        'page_range': page_range
+        'page_range': page_range,
+        'is_paginated': is_paginated,
         'enrollment_count': queryset.count()
     }
     return render(request, 'coursebank_reports/enrollments.html', context)

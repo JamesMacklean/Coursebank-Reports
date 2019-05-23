@@ -4,7 +4,8 @@
 'course': course,
 'enrollment_list': enrollment_list,
 'num_pages': num_pages,
-'page_range': page_range
+'page_range': page_range,
+'is_paginated': is_paginated,
 'enrollment_count': queryset.count()
 {% endcomment %}
 
@@ -69,6 +70,7 @@
   </tbody>
 </table>
 
+{% if is_paginated %}
 <div class="pagination">
     <span class="step-links">
         {% if enrollment_list.has_previous %}
@@ -86,6 +88,7 @@
         {% endif %}
     </span>
 </div>
+{% endif %}
 
 </div>
 {% endblock %}
