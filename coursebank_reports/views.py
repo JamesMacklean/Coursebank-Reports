@@ -55,7 +55,7 @@ def index_reports(request):
 class CourseListView(ListView):
     model = CourseOverview
     template_name = "coursebank_reports/courses.html"
-    context_object_name = 'course'
+    context_object_name = 'course_list'
     paginate_by = 100
 
 
