@@ -51,11 +51,39 @@ def index_reports(request):
     return render(request, 'coursebank_reports/reports.html', context)
 
 
-@method_decorator(staff_member_required, name='dispatch')
-class CourseListView(ListView):
-    model = CourseOverview
-    template_name = "coursebank_reports/courses.html"
-    paginate_by = 100
+@staff_member_required
+def course_list_view(request):
+    queryset = CourseOverview.objects.all()
+
+    filter_org = request.GET.get('filter_org')
+    if filter_org:
+        queryset = queryset.filter(org__contains=filter_org)
+
+    filter_display_name = request.GET.get('filter_display_name')
+    if filter_display_name:
+        queryset = queryset.filter(display_name__contains=filter_display_name)
+
+    if queryset.exists():
+        course_count = queryset.count()
+    else:
+        course_count = 0
+
+    paginator = Paginator(queryset, 100)
+    page = request.GET.get('page')
+    course_list = paginator.get_page(page)
+    num_pages = paginator.num_pages
+    page_range = paginator.page_range
+
+    is_paginated = True if course_count > 100 else False
+
+    context = {
+        'course_list': course_list,
+        'num_pages': num_pages,
+        'page_range': page_range,
+        'is_paginated': is_paginated,
+        'course_count': queryset.count()
+    }
+    return render(request, 'coursebank_reports/courses.html', context)
 
 
 @staff_member_required
