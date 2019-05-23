@@ -6,16 +6,19 @@
   <h1>Course List</h1>
 
   <h5>Filter:</h5>
-  <form method="GET" action="" id="searchform">
-    <label for="filter_org">Partner</label>
-    <input name="filter_org" type="text" value="{{ request.GET.filter_org }}" placeholder="Org Name"/>
+  <div class="mx-auto">
+    <form method="GET" action="" id="searchform">
+      <label for="filter_org">Partner:</label>
+      <input name="filter_org" type="text" value="{{ request.GET.filter_org }}" placeholder="Org Name"/>
 
-    <label for="filter_display_name">Name</label>
-    <input name="filter_display_name" type="text" value="{{ request.GET.filter_display_name }}" placeholder="Course 101"/>
+      <label for="filter_display_name">Name:</label>
+      <input name="filter_display_name" type="text" value="{{ request.GET.filter_display_name }}" placeholder="Course 101"/>
 
-    <input class="btn btn-primary btn-sm" type="submit" value="Filter" />
-  </form>
+      <input class="btn btn-primary btn-sm" type="submit" value="Filter" />
+    </form>
+  </div>
 
+<h5>Course Count: {{ course_count }}</h5>
 <ul>
 {% for course in course_list %}
     <li>
