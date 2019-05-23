@@ -4,7 +4,7 @@
 <div class="bootstrap-iso">
 
 <ul>
-{% for course in courses %}
+{% for course in course_list %}
     <li>
       <ul class="list-group">
         <li class="list-group-item">
@@ -30,18 +30,18 @@
 
 <div class="pagination">
     <span class="step-links">
-        {% if courses.has_previous %}
+        {% if course_list.has_previous %}
             <a class="btn btn-primary" href="?page=1">&laquo; first</a>
-            <a class="btn btn-primary" href="?page={{ courses.previous_page_number }}">previous</a>
+            <a class="btn btn-primary" href="?page={{ course_list.previous_page_number }}">previous</a>
         {% endif %}
 
         <span class="current">
-            Page {{ courses.number }} of {{ courses.paginator.num_pages }}.
+            Page {{ course_list.number }} of {{ course_list.paginator.num_pages }}.
         </span>
 
-        {% if courses.has_next %}
-            <a class="btn btn-primary" href="?page={{ courses.next_page_number }}">next</a>
-            <a class="btn btn-primary" href="?page={{ courses.paginator.num_pages }}">last &raquo;</a>
+        {% if course_list.has_next %}
+            <a class="btn btn-primary" href="?page={{ course_list.next_page_number }}">next</a>
+            <a class="btn btn-primary" href="?page={{ course_list.paginator.num_pages }}">last &raquo;</a>
         {% endif %}
     </span>
 </div>

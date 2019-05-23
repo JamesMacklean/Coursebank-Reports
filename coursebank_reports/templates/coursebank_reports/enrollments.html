@@ -14,8 +14,6 @@
 
 <h5>Filter:</h5>
 <form method="GET" action="" id="searchform">
-  {% csrf_token %}
-
   <label for="filter_username">Username</label>
   <input name="filter_username" type="text" value="{{ request.GET.filter_username }}" placeholder="sampleuser123"/>
 
@@ -39,6 +37,7 @@
   <input type="submit" value="Filter" />
 </form>
 
+<h5>Enrollments Count: {{ count }}</h5>
 <table class="table">
   <thead>
     <tr>
@@ -49,7 +48,7 @@
     </tr>
   </thead>
   <tbody>
-    {% for enrollment in enrollment_list %}
+    {% for enrollment in object_list %}
     <tr>
       <td><a href="{% url 'course-enrollments-user-detail' course_id=course.id id=enrollment.user.id %}">{{ enrollment.user.username }}</a></td>
       <td>{{ enrollment.user.email }}</td>
@@ -69,18 +68,18 @@
 
 <div class="pagination">
     <span class="step-links">
-        {% if enrollment_list.has_previous %}
+        {% if object_list.has_previous %}
             <a class="btn btn-primary" href="?page=1">&laquo; first</a>
-            <a class="btn btn-primary" href="?page={{ enrollment_list.previous_page_number }}">previous</a>
+            <a class="btn btn-primary" href="?page={{ object_list.previous_page_number }}">previous</a>
         {% endif %}
 
         <span class="current">
-            Page {{ enrollment_list.number }} of {{ enrollment_list.paginator.num_pages }}.
+            Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
         </span>
 
-        {% if enrollment_list.has_next %}
-            <a class="btn btn-primary" href="?page={{ enrollment_list.next_page_number }}">next</a>
-            <a class="btn btn-primary" href="?page={{ enrollment_list.paginator.num_pages }}">last &raquo;</a>
+        {% if object_list.has_next %}
+            <a class="btn btn-primary" href="?page={{ object_list.next_page_number }}">next</a>
+            <a class="btn btn-primary" href="?page={{ object_list.paginator.num_pages }}">last &raquo;</a>
         {% endif %}
     </span>
 </div>

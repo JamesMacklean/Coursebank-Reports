@@ -4,16 +4,17 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import render
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 
 from django.core.paginator import Paginator
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 
+from opaque_keys.edx.keys import CourseKey
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 from student.models import Registration, UserProfile, CourseEnrollment
 from course_modes.models import CourseMode
-
-User = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
+from django.contrib.auth.models import User
 
 
 @staff_member_required
@@ -28,8 +29,8 @@ def index_reports(request):
     non_staff_users = active_users.filter(is_staff=False)
     staff_users = active_users.filter(is_staff=True)
     total_enrollments = CourseEnrollment.objects.all()
-    verified_enrollments = enrollments.filter(mode='verified')
-    audit_enrollments = enrollments.filter(mode='audit')
+    verified_enrollments = total_enrollments.filter(mode='verified')
+    audit_enrollments = total_enrollments.filter(mode='audit')
     courses = CourseOverview.objects.all()
     course_modes = CourseMode.objects.all()
     verified_courses = course_modes.filter(mode_slug='verified')
@@ -50,20 +51,15 @@ def index_reports(request):
     return render(request, 'coursebank_reports/reports.html', context)
 
 
+@method_decorator(staff_member_required, name='dispatch')
 class CourseListView(ListView):
     model = CourseOverview
     template_name = "coursebank_reports/courses.html"
     context_object_name = 'course'
     paginate_by = 100
 
-    @staff_member_required
-    def get_context_data(self, **kwargs):
-        context = super(CourseListView, self).get_context_data(**kwargs)
-        queryset = self.get_queryset()
-        context['count'] = queryset.count()
-        return context
 
-
+@method_decorator(staff_member_required, name='dispatch')
 class EnrollmentListView(ListView):
     model = CourseEnrollment
     template_name = "coursebank_reports/enrollments.html"
@@ -72,9 +68,12 @@ class EnrollmentListView(ListView):
 
     def get_queryset(self):
         queryset = CourseEnrollment.objects.all()
-        course_id = self.kwargs.get('course_id', 'all')
-        if course_id != 'all':
-            queryset = queryset.filter(course_id=course_id)
+        course_id = self.kwargs.get('course_id')
+        try:
+            course = CourseOverview.get_from_id(course_id)
+        except CourseOverview.DoesNotExist:
+            raise Http404
+        queryset = queryset.filter(course=course)
 
         username = self.request.GET.get('username', None)
         email = self.request.GET.get('email', None)
@@ -101,8 +100,9 @@ class EnrollmentListView(ListView):
             queryset = queryset.filter(user__email=filter_email)
 
         filter_mode = self.request.GET.get('filter_mode')
-        if filter_mode != 'all':
-            queryset = queryset.filter(mode=filter_mode)
+        if filter_mode:
+            if filter_mode != 'all':
+                queryset = queryset.filter(mode=filter_mode)
 
         filter_active = self.request.GET.get('filter_active')
         if filter_active == 'active':
@@ -112,20 +112,15 @@ class EnrollmentListView(ListView):
 
         return queryset
 
-    @staff_member_required
     def get_context_data(self, **kwargs):
-        context = super(CourseListView, self).get_context_data(**kwargs)
-
+        context = super(EnrollmentListView, self).get_context_data(**kwargs)
+        course_id = self.kwargs.get('course_id')
         try:
             course = CourseOverview.get_from_id(course_id)
         except CourseOverview.DoesNotExist:
             raise Http404
 
-        queryset = self.get_queryset()
-        count = queryset.count()
-
         context['course'] = course
-        context['count'] = count
         return context
 
 
@@ -253,6 +248,7 @@ def enrollments_users_reports(request, course_id):
     return render(request, 'coursebank_reports/enrollments-users.html', context)
 
 
+@method_decorator(staff_member_required, name='dispatch')
 class UserProfileDetailView(DetailView):
     """
     User:
@@ -281,7 +277,6 @@ class UserProfileDetailView(DetailView):
     slug_field = 'user__id'
     slug_url_kwarg = 'id'
 
-    @staff_member_required
     def get_context_data(self, **kwargs):
         context = super(UserProfileDetailView, self).get_context_data(**kwargs)
         return context
