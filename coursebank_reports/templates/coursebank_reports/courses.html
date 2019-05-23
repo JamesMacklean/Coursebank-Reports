@@ -41,7 +41,7 @@
 {% endfor %}
 </ul>
 
-{% is_paginated %}
+{% if is_paginated %}
 <div class="pagination">
     <span class="step-links">
         {% if course_list.has_previous %}
