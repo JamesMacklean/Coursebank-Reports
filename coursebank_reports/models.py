@@ -4,9 +4,9 @@ class CountReport(models.Model):
     """
     Model to store periodic count report data
     """
-    created = DateTimeField(auto_now_add=True)
-    key = CharField(max_length=255)
-    count_value = IntegerField()
+    created = models.DateTimeField(auto_now_add=True)
+    key = models.CharField(max_length=255)
+    count_value = models.IntegerField()
     meta = models.TextField(null=True, blank=True)
 
     class Meta:
