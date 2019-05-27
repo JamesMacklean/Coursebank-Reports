@@ -219,8 +219,9 @@ def course_list_view(request):
 @staff_member_required
 def enrollment_list_view(request, course_id):
     queryset = CourseEnrollment.objects.all()
+    course_key = CourseKey.from_string(course_id)
     try:
-        course = CourseOverview.get_from_id(course_id)
+        course = CourseOverview.get_from_id(course_key)
     except CourseOverview.DoesNotExist:
         raise Http404
     queryset = queryset.filter(course=course)
@@ -285,8 +286,9 @@ class EnrollmentListView(ListView):
     def get_queryset(self):
         queryset = CourseEnrollment.objects.all()
         course_id = self.kwargs.get('course_id')
+        course_key = CourseKey.from_string(course_id)
         try:
-            course = CourseOverview.get_from_id(course_id)
+            course = CourseOverview.get_from_id(course_key)
         except CourseOverview.DoesNotExist:
             raise Http404
         queryset = queryset.filter(course=course)
@@ -316,8 +318,9 @@ class EnrollmentListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(EnrollmentListView, self).get_context_data(**kwargs)
         course_id = self.kwargs.get('course_id')
+        course_key = CourseKey.from_string(course_id)
         try:
-            course = CourseOverview.get_from_id(course_id)
+            course = CourseOverview.get_from_id(course_key)
         except CourseOverview.DoesNotExist:
             raise Http404
 
@@ -343,8 +346,9 @@ def course_enrollments_reports(request, course_id):
     	-users_enrolled_in(course_id, include_inactive=False)::<queryset:Users>
     	-enrollment_counts(course_id)::<dict:{'total':<int>,'mode':<int>,..}
     """
+    course_key = CourseKey.from_string(course_id)
     try:
-        course = CourseOverview.get_from_id(course_id)
+        course = CourseOverview.get_from_id(course_key)
     except CourseOverview.DoesNotExist:
         raise Http404
 
@@ -375,8 +379,9 @@ def num_enrolled_reports(request, course_id):
     """
     View for reports regarding a specific course
     """
+    course_key = CourseKey.from_string(course_id)
     try:
-        course = CourseOverview.get_from_id(course_id)
+        course = CourseOverview.get_from_id(course_key)
     except CourseOverview.DoesNotExist:
         raise Http404
 
@@ -404,8 +409,9 @@ def enrollment_counts_reports(request, course_id):
     """
     View for reports regarding a specific course
     """
+    course_key = CourseKey.from_string(course_id)
     try:
-        course = CourseOverview.get_from_id(course_id)
+        course = CourseOverview.get_from_id(course_key)
     except CourseOverview.DoesNotExist:
         raise Http404
 
@@ -427,8 +433,9 @@ def enrollments_users_reports(request, course_id):
     """
     View for reports regarding a specific course
     """
+    course_key = CourseKey.from_string(course_id)
     try:
-        course = CourseOverview.get_from_id(course_id)
+        course = CourseOverview.get_from_id(course_key)
     except CourseOverview.DoesNotExist:
         raise Http404
 
