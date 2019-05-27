@@ -21,39 +21,6 @@ from .models import CountReport
 import datetime
 
 
-# @staff_member_required
-# def course_reports_view(request):
-#     """
-#     View for count reports
-#     Expected to be used for graph rendering
-#     """
-#     context = {}
-#     queryset = CountReport.objects.all()
-#     today = datetime.date.today()
-#     last_week = today - datetime.timedelta(days=7)
-#     last_month = today - datetime.timedelta(days=30)
-#
-#     # Course Overviews
-#     course_reports = queryset.filter(key="course_overview_count")
-#     course_reports_week = course_reports.filter(created__gte=last_week)
-#     course_reports_month = course_reports.filter(created__gte=last_month)
-#     context['course_reports'] = course_reports
-#     context['course_reports_latest'] = course_reports[0]
-#     context['course_reports_week'] = course_reports_week[:7]
-#     context['course_reports_month'] = course_reports_month[:30]
-#
-#     # Verified Courses (CourseModes)
-#     verified_course_reports = queryset.filter(key="verified_course_count")
-#     verified_course_reports_week = verified_course_reports.filter(created__gte=last_week)
-#     verified_course_reports_month = verified_course_reports.filter(created__gte=last_month)
-#     context['verified_course_reports'] = verified_course_reports
-#     context['verified_course_reports_latest'] = verified_course_reports[0]
-#     context['verified_course_reports_week'] = verified_course_reports_week[:7]
-#     context['verified_course_reports_month'] = verified_course_reports_month[:30]
-#
-#     return render(request, 'coursebank_reports/course-reports.html', context)
-
-
 @staff_member_required
 def enrollments_reports_view(request):
     """
@@ -174,57 +141,6 @@ def user_reports_view(request):
     return render(request, 'coursebank_reports/user-reports.html', context)
 
 
-# @staff_member_required
-# def count_reports(request):
-#     """
-#     View for count reports
-#     Expected to be used for graph rendering
-#     """
-#     context = {}
-#     queryset = CountReport.objects.all()
-#     today = datetime.date.today()
-#     last_week = today - datetime.timedelta(days=7)
-#     last_month = today - datetime.timedelta(days=30)
-#
-#     # Registrations
-#     registration_reports = queryset.filter(key="registration_count")
-#     registration_reports_week = registration_reports.filter(created__gte=last_week)
-#     registration_reports_month = registration_reports.filter(created__gte=last_month)
-#     context['registration_reports'] = registration_reports
-#     context['registration_reports_latest'] = registration_reports[0]
-#     context['registration_reports_week'] = registration_reports_week[:7]
-#     context['registration_reports_month'] = registration_reports_month[:30]
-#
-#     # Inactive Users
-#     inactive_reports = queryset.filter(key="inactive_user_count")
-#     inactive_reports_week = inactive_reports.filter(created__gte=last_week)
-#     inactive_reports_month = inactive_reports.filter(created__gte=last_month)
-#     context['inactive_reports'] = inactive_reports
-#     context['inactive_reports_latest'] = inactive_reports[0]
-#     context['inactive_reports_week'] = inactive_reports_week[:7]
-#     context['inactive_reports_month'] = inactive_reports_month[:30]
-#
-#     # Non-Staff (Regular) Users
-#     non_staff_reports = queryset.filter(key="non_staff_user_count")
-#     non_staff_reports_week = non_staff_reports.filter(created__gte=last_week)
-#     non_staff_reports_month = non_staff_reports.filter(created__gte=last_month)
-#     context['non_staff_reports'] = non_staff_reports
-#     context['non_staff_reports_latest'] = non_staff_reports[0]
-#     context['non_staff_reports_week'] = non_staff_reports_week[:7]
-#     context['non_staff_reports_month'] = non_staff_reports_month[:30]
-#
-#     # Staff (staff, superuser roles) Users
-#     staff_reports = queryset.filter(key="staff_user_count")
-#     staff_reports_week = staff_reports.filter(created__gte=last_week)
-#     staff_reports_month = staff_reports.filter(created__gte=last_month)
-#     context['staff_reports'] = staff_reports
-#     context['staff_reports_latest'] = staff_reports[0]
-#     context['staff_reports_week'] = staff_reports_week[:7]
-#     context['staff_reports_month'] = staff_reports_month[:30]
-#
-#     return render(request, 'coursebank_reports/counts.html', context)
-
-
 @staff_member_required
 def index_reports(request):
     """
@@ -263,12 +179,12 @@ def index_reports(request):
 def course_list_view(request):
     queryset = CourseOverview.objects.all()
 
-    filter_org = request.GET.get('filter_org')
-    if filter_org:
+    filter_org = request.GET.get('filter_org', None)
+    if filter_org is not None:
         queryset = queryset.filter(org__contains=filter_org)
 
-    filter_display_name = request.GET.get('filter_display_name')
-    if filter_display_name:
+    filter_display_name = request.GET.get('filter_display_name', None)
+    if filter_display_name is not None:
         queryset = queryset.filter(display_name__contains=filter_display_name)
 
     if queryset.exists():
@@ -303,24 +219,25 @@ def enrollment_list_view(request, course_id):
         raise Http404
     queryset = queryset.filter(course=course)
 
-    filter_username = request.GET.get('filter_username')
-    if filter_username:
+    filter_username = request.GET.get('filter_username', None)
+    if filter_username is not None:
         queryset = queryset.filter(user__username=filter_username)
 
-    filter_email = request.GET.get('filter_email')
-    if filter_email:
+    filter_email = request.GET.get('filter_email', None)
+    if filter_email is not None:
         queryset = queryset.filter(user__email=filter_email)
 
-    filter_mode = request.GET.get('filter_mode')
-    if filter_mode:
+    filter_mode = request.GET.get('filter_mode', None)
+    if filter_mode is not None:
         if filter_mode != 'all':
             queryset = queryset.filter(mode=filter_mode)
 
-    filter_active = request.GET.get('filter_active')
-    if filter_active == 'active':
-        queryset = queryset.filter(is_active=True)
-    elif filter_active == 'inactive':
-        queryset = queryset.filter(is_active=False)
+    filter_active = request.GET.get('filter_active', None)
+    if filter_active is not None:
+        if filter_active == 'active':
+            queryset = queryset.filter(is_active=True)
+        elif filter_active == 'inactive':
+            queryset = queryset.filter(is_active=False)
 
     if queryset.exists():
         enrollment_count = queryset.count()
@@ -362,24 +279,25 @@ class EnrollmentListView(ListView):
             raise Http404
         queryset = queryset.filter(course=course)
 
-        filter_username = self.request.GET.get('filter_username')
-        if filter_username:
+        filter_username = self.request.GET.get('filter_username', None)
+        if filter_username is not None:
             queryset = queryset.filter(user__username=filter_username)
 
-        filter_email = self.request.GET.get('filter_email')
-        if filter_email:
+        filter_email = self.request.GET.get('filter_email', None)
+        if filter_email is not None:
             queryset = queryset.filter(user__email=filter_email)
 
-        filter_mode = self.request.GET.get('filter_mode')
-        if filter_mode:
+        filter_mode = self.request.GET.get('filter_mode', None)
+        if filter_mode is not None:
             if filter_mode != 'all':
                 queryset = queryset.filter(mode=filter_mode)
 
-        filter_active = self.request.GET.get('filter_active')
-        if filter_active == 'active':
-            queryset = queryset.filter(is_active=True)
-        elif filter_active == 'inactive':
-            queryset = queryset.filter(is_active=False)
+        filter_active = self.request.GET.get('filter_active', None)
+        if filter_active is not None:
+            if filter_active == 'active':
+                queryset = queryset.filter(is_active=True)
+            elif filter_active == 'inactive':
+                queryset = queryset.filter(is_active=False)
 
         return queryset
 
