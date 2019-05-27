@@ -180,11 +180,11 @@ def course_list_view(request):
     queryset = CourseOverview.objects.all()
 
     filter_org = request.GET.get('filter_org', None)
-    if filter_org is not None:
+    if filter_org is not None and filter_org != '':
         queryset = queryset.filter(org__contains=filter_org)
 
     filter_display_name = request.GET.get('filter_display_name', None)
-    if filter_display_name is not None:
+    if filter_display_name is not None and filter_display_name != '':
         queryset = queryset.filter(display_name__contains=filter_display_name)
 
     if queryset.exists():
