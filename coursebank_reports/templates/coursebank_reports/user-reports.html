@@ -1,0 +1,148 @@
+{% extends "main_django.html" %}
+
+{% comment %}
+'user_reports'
+'user_reports_latest'
+'user_reports_week'
+'user_reports_month'
+
+'registration_daily_reports'
+'registration_daily_reports_latest'
+'registration_daily_reports_week'
+'registration_daily_reports_month'
+
+'active_reports'
+'active_reports_latest'
+'active_reports_week'
+'active_reports_month'
+
+'active_daily_reports'
+'active_daily_reports_latest'
+'active_daily_reports_week'
+'active_daily_reports_month'
+{% endcomment %}
+
+{% block body %}
+<div class="bootstrap-iso">
+  <h1>Charts: Users and Registrations</h1>
+
+  <div class="mx-auto">
+    <h3>Total Users</h3>
+    <h5>Total: {{ user_reports_latest.count_value }}</h5>
+    <h5>Total By Week:</h5>
+    <div id="usersreportschart"></div>
+  </div>
+
+  <div class="mx-auto">
+    <h3>Daily Registrations</h3>
+    <h5>Total: {{ registration_daily_reports_latest.count_value }}</h5>
+    <h5>Total By Week:</h5>
+    <div id="dailyregistrationreportschart"></div>
+  </div>
+
+  <div class="mx-auto">
+    <h3>Total Active Users</h3>
+    <h5>Total: {{ active_reports_latest.count_value }}</h5>
+    <h5>Total By Week:</h5>
+    <div id="activereportschart"></div>
+  </div>
+
+  <div class="mx-auto">
+    <h3>Daily Active Users</h3>
+    <h5>Total: {{ active_daily_reports_latest.count_value }}</h5>
+    <h5>Total By Week:</h5>
+    <div id="dailyactivereportschart"></div>
+  </div>
+
+</div>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+  // Load google charts
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawUserChart);
+  google.charts.setOnLoadCallback(drawDailyRegistrationsChart);
+  google.charts.setOnLoadCallback(drawActiveChart);
+  google.charts.setOnLoadCallback(drawDailyActiveChart);
+
+  // Draw the chart and set the chart values
+  function drawUserChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Day', 'Count per day'],
+      ['6 Days Ago', {{ user_reports_week[6].count_value }}],
+      ['5 Days Ago', {{ user_reports_week[5].count_value }}],
+      ['4 Days Ago', {{ user_reports_week[4].count_value }}],
+      ['3 Days Ago', {{ user_reports_week[3].count_value }}],
+      ['2 Days Ago', {{ user_reports_week[2].count_value }}],
+      ['Yesterday', {{ user_reports_week[1].count_value }}],
+      ['Today', {{ user_reports_week[0].count_value }}],
+    ]);
+
+    // Optional; add a title and set the width and height of the chart
+    var options = {'title':'Total Users', 'width':900, 'height':550};
+
+    // Display the chart inside the <div> element with id="piechart"
+    var chart = new google.visualization.LineChart(document.getElementById('usersreportschart'));
+    chart.draw(data, options);
+  }
+
+  function drawDailyRegistrationsChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Day', 'Count per day'],
+      ['6 Days Ago', {{ registration_daily_reports_week[6].count_value }}],
+      ['5 Days Ago', {{ registration_daily_reports_week[5].count_value }}],
+      ['4 Days Ago', {{ registration_daily_reports_week[4].count_value }}],
+      ['3 Days Ago', {{ registration_daily_reports_week[3].count_value }}],
+      ['2 Days Ago', {{ registration_daily_reports_week[2].count_value }}],
+      ['Yesterday', {{ registration_daily_reports_week[1].count_value }}],
+      ['Today', {{ registration_daily_reports_week[0].count_value }}],
+    ]);
+
+    // Optional; add a title and set the width and height of the chart
+    var options = {'title':'Daily Registrations', 'width':900, 'height':550};
+
+    // Display the chart inside the <div> element with id="piechart"
+    var chart = new google.visualization.ColumnChart(document.getElementById('dailyregistrationreportschart'));
+    chart.draw(data, options);
+  }
+
+  function drawActiveChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Day', 'Count per day'],
+      ['6 Days Ago', {{ active_reports_week[6].count_value }}],
+      ['5 Days Ago', {{ active_reports_week[5].count_value }}],
+      ['4 Days Ago', {{ active_reports_week[4].count_value }}],
+      ['3 Days Ago', {{ active_reports_week[3].count_value }}],
+      ['2 Days Ago', {{ active_reports_week[2].count_value }}],
+      ['Yesterday', {{ active_reports_week[1].count_value }}],
+      ['Today', {{ active_reports_week[0].count_value }}],
+    ]);
+
+    // Optional; add a title and set the width and height of the chart
+    var options = {'title':'Total Active Users', 'width':900, 'height':550};
+
+    // Display the chart inside the <div> element with id="piechart"
+    var chart = new google.visualization.LineChart(document.getElementById('activereportschart'));
+    chart.draw(data, options);
+  }
+
+  function drawDailyActiveChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Day', 'Count per day'],
+      ['6 Days Ago', {{ active_daily_reports_week[6].count_value }}],
+      ['5 Days Ago', {{ active_daily_reports_week[5].count_value }}],
+      ['4 Days Ago', {{ active_daily_reports_week[4].count_value }}],
+      ['3 Days Ago', {{ active_daily_reports_week[3].count_value }}],
+      ['2 Days Ago', {{ active_daily_reports_week[2].count_value }}],
+      ['Yesterday', {{ active_daily_reports_week[1].count_value }}],
+      ['Today', {{ active_daily_reports_week[0].count_value }}],
+    ]);
+
+    // Optional; add a title and set the width and height of the chart
+    var options = {'title':'Daily Active Users', 'width':900, 'height':550};
+
+    // Display the chart inside the <div> element with id="piechart"
+    var chart = new google.visualization.ColumnChart(document.getElementById('dailyactivereportschart'));
+    chart.draw(data, options);
+  }

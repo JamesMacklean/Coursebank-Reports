@@ -16,6 +16,214 @@ from student.models import Registration, UserProfile, CourseEnrollment
 from course_modes.models import CourseMode
 from django.contrib.auth.models import User
 
+from .models import CountReport
+
+import datetime
+
+
+# @staff_member_required
+# def course_reports_view(request):
+#     """
+#     View for count reports
+#     Expected to be used for graph rendering
+#     """
+#     context = {}
+#     queryset = CountReport.objects.all()
+#     today = datetime.date.today()
+#     last_week = today - datetime.timedelta(days=7)
+#     last_month = today - datetime.timedelta(days=30)
+#
+#     # Course Overviews
+#     course_reports = queryset.filter(key="course_overview_count")
+#     course_reports_week = course_reports.filter(created__gte=last_week)
+#     course_reports_month = course_reports.filter(created__gte=last_month)
+#     context['course_reports'] = course_reports
+#     context['course_reports_latest'] = course_reports.latest('created')
+#     context['course_reports_week'] = course_reports_week[:7]
+#     context['course_reports_month'] = course_reports_month[:30]
+#
+#     # Verified Courses (CourseModes)
+#     verified_course_reports = queryset.filter(key="verified_course_count")
+#     verified_course_reports_week = verified_course_reports.filter(created__gte=last_week)
+#     verified_course_reports_month = verified_course_reports.filter(created__gte=last_month)
+#     context['verified_course_reports'] = verified_course_reports
+#     context['verified_course_reports_latest'] = verified_course_reports.latest('created')
+#     context['verified_course_reports_week'] = verified_course_reports_week[:7]
+#     context['verified_course_reports_month'] = verified_course_reports_month[:30]
+#
+#     return render(request, 'coursebank_reports/course-reports.html', context)
+
+
+@staff_member_required
+def enrollments_reports_view(request):
+    """
+    View for count reports
+    Expected to be used for graph rendering
+    """
+    context = {}
+    queryset = CountReport.objects.all()
+    today = datetime.date.today()
+    last_week = today - datetime.timedelta(days=7)
+    last_month = today - datetime.timedelta(days=30)
+
+    # CourseEnrollments
+    enrollment_reports = queryset.filter(key="enrollment_count")
+    enrollment_reports_week = enrollment_reports.filter(created__gte=last_week)
+    enrollment_reports_month = enrollment_reports.filter(created__gte=last_month)
+    context['enrollment_reports'] = enrollment_reports
+    context['enrollment_reports_latest'] = enrollment_reports.latest('created')
+    context['enrollment_reports_week'] = enrollment_reports_week[:7]
+    context['enrollment_reports_month'] = enrollment_reports_month[:30]
+
+    # Daily CourseEnrollments
+    enrollments_daily_reports = queryset.filter(key="enrollments_today_count")
+    enrollments_daily_reports_week = enrollments_daily_reports.filter(created__gte=last_week)
+    enrollments_daily_reports_month = enrollments_daily_reports.filter(created__gte=last_month)
+    context['enrollments_daily_reports'] = enrollments_daily_reports
+    context['enrollments_daily_reports_latest'] = enrollments_daily_reports.latest('created')
+    context['enrollments_daily_reports_week'] = enrollments_daily_reports_week[:7]
+    context['enrollments_daily_reports_month'] = enrollments_daily_reports_month[:30]
+
+    # Verified CourseEnrollments
+    verified_enrollment_reports = queryset.filter(key="verified_enrollment_count")
+    verified_enrollment_reports_week = verified_enrollment_reports.filter(created__gte=last_week)
+    verified_enrollment_reports_month = verified_enrollment_reports.filter(created__gte=last_month)
+    context['verified_enrollment_reports'] = verified_enrollment_reports
+    context['verified_enrollment_reports_latest'] = verified_enrollment_reports.latest('created')
+    context['verified_enrollment_reports_week'] = verified_enrollment_reports_week[:7]
+    context['verified_enrollment_reports_month'] = verified_enrollment_reports_month[:30]
+
+    # Daily Verified CourseEnrollments
+    verified_enrollments_daily_reports = queryset.filter(key="verified_enrollments_today_count")
+    verified_enrollments_daily_reports_week = verified_enrollments_daily_reports.filter(created__gte=last_week)
+    verified_enrollments_daily_reports_month = verified_enrollments_daily_reports.filter(created__gte=last_month)
+    context['verified_enrollments_daily_reports'] = verified_enrollments_daily_reports
+    context['verified_enrollments_daily_reports_latest'] = verified_enrollments_daily_reports.latest('created')
+    context['verified_enrollments_daily_reports_week'] = verified_enrollments_daily_reports_week[:7]
+    context['verified_enrollments_daily_reports_month'] = verified_enrollments_daily_reports_month[:30]
+
+    # Audit CourseEnrollments
+    audit_enrollment_reports = queryset.filter(key="audit_enrollment_count")
+    audit_enrollment_reports_week = audit_enrollment_reports.filter(created__gte=last_week)
+    audit_enrollment_reports_month = audit_enrollment_reports.filter(created__gte=last_month)
+    context['audit_enrollment_reports'] = audit_enrollment_reports
+    context['audit_enrollment_reports_latest'] = audit_enrollment_reports.latest('created')
+    context['audit_enrollment_reports_week'] = audit_enrollment_reports_week[:7]
+    context['audit_enrollment_reports_month'] = audit_enrollment_reports_month[:30]
+
+    # Daily Audit CourseEnrollments
+    audit_enrollments_daily_reports = queryset.filter(key="audit_enrollments_today_count")
+    audit_enrollments_daily_reports_week = audit_enrollments_daily_reports.filter(created__gte=last_week)
+    audit_enrollments_daily_reports_month = audit_enrollments_daily_reports.filter(created__gte=last_month)
+    context['audit_enrollments_daily_reports'] = audit_enrollments_daily_reports
+    context['audit_enrollments_daily_reports_latest'] = audit_enrollments_daily_reports.latest('created')
+    context['audit_enrollments_daily_reports_week'] = audit_enrollments_daily_reports_week[:7]
+    context['audit_enrollments_daily_reports_month'] = audit_enrollments_daily_reports_month[:30]
+
+    return render(request, 'coursebank_reports/enrollments-reports.html', context)
+
+
+@staff_member_required
+def user_reports_view(request):
+    """
+    View for count reports
+    Expected to be used for graph rendering
+    """
+    context = {}
+    queryset = CountReport.objects.all()
+    today = datetime.date.today()
+    last_week = today - datetime.timedelta(days=7)
+    last_month = today - datetime.timedelta(days=30)
+
+    # Total Users
+    user_reports = queryset.filter(key="user_count")
+    user_reports_week = user_reports.filter(created__gte=last_week)
+    user_reports_month = user_reports.filter(created__gte=last_month)
+    context['user_reports'] = user_reports
+    context['user_reports_latest'] = user_reports.latest('created')
+    context['user_reports_week'] = user_reports_week[:7]
+    context['user_reports_month'] = user_reports_month[:30]
+
+    # Daily Registrations
+    registration_daily_reports = queryset.filter(key="registrations_today_count")
+    registration_daily_reports_week = registration_daily_reports.filter(created__gte=last_week)
+    registration_daily_reports_month = registration_daily_reports.filter(created__gte=last_month)
+    context['registration_daily_reports'] = registration_daily_reports
+    context['registration_daily_reports_latest'] = registration_daily_reports.latest('created')
+    context['registration_daily_reports_week'] = registration_daily_reports_week[:7]
+    context['registration_daily_reports_month'] = registration_daily_reports_month[:30]
+
+    # Active Users
+    active_reports = queryset.filter(key="active_user_count")
+    active_reports_week = active_reports.filter(created__gte=last_week)
+    active_reports_month = active_reports.filter(created__gte=last_month)
+    context['active_reports'] = active_reports
+    context['active_reports_latest'] = active_reports.latest('created')
+    context['active_reports_week'] = active_reports_week[:7]
+    context['active_reports_month'] = active_reports_month[:30]
+
+    # Daily Active Users
+    active_daily_reports = queryset.filter(key="active_users_today_count")
+    active_daily_reports_week = active_daily_reports.filter(created__gte=last_week)
+    active_daily_reports_month = active_daily_reports.filter(created__gte=last_month)
+    context['active_daily_reports'] = active_daily_reports
+    context['active_daily_reports_latest'] = active_daily_reports.latest('created')
+    context['active_daily_reports_week'] = active_daily_reports_week[:7]
+    context['active_daily_reports_month'] = active_daily_reports_month[:30]
+
+    return render(request, 'coursebank_reports/user-reports.html', context)
+
+
+# @staff_member_required
+# def count_reports(request):
+#     """
+#     View for count reports
+#     Expected to be used for graph rendering
+#     """
+#     context = {}
+#     queryset = CountReport.objects.all()
+#     today = datetime.date.today()
+#     last_week = today - datetime.timedelta(days=7)
+#     last_month = today - datetime.timedelta(days=30)
+#
+#     # Registrations
+#     registration_reports = queryset.filter(key="registration_count")
+#     registration_reports_week = registration_reports.filter(created__gte=last_week)
+#     registration_reports_month = registration_reports.filter(created__gte=last_month)
+#     context['registration_reports'] = registration_reports
+#     context['registration_reports_latest'] = registration_reports.latest('created')
+#     context['registration_reports_week'] = registration_reports_week[:7]
+#     context['registration_reports_month'] = registration_reports_month[:30]
+#
+#     # Inactive Users
+#     inactive_reports = queryset.filter(key="inactive_user_count")
+#     inactive_reports_week = inactive_reports.filter(created__gte=last_week)
+#     inactive_reports_month = inactive_reports.filter(created__gte=last_month)
+#     context['inactive_reports'] = inactive_reports
+#     context['inactive_reports_latest'] = inactive_reports.latest('created')
+#     context['inactive_reports_week'] = inactive_reports_week[:7]
+#     context['inactive_reports_month'] = inactive_reports_month[:30]
+#
+#     # Non-Staff (Regular) Users
+#     non_staff_reports = queryset.filter(key="non_staff_user_count")
+#     non_staff_reports_week = non_staff_reports.filter(created__gte=last_week)
+#     non_staff_reports_month = non_staff_reports.filter(created__gte=last_month)
+#     context['non_staff_reports'] = non_staff_reports
+#     context['non_staff_reports_latest'] = non_staff_reports.latest('created')
+#     context['non_staff_reports_week'] = non_staff_reports_week[:7]
+#     context['non_staff_reports_month'] = non_staff_reports_month[:30]
+#
+#     # Staff (staff, superuser roles) Users
+#     staff_reports = queryset.filter(key="staff_user_count")
+#     staff_reports_week = staff_reports.filter(created__gte=last_week)
+#     staff_reports_month = staff_reports.filter(created__gte=last_month)
+#     context['staff_reports'] = staff_reports
+#     context['staff_reports_latest'] = staff_reports.latest('created')
+#     context['staff_reports_week'] = staff_reports_week[:7]
+#     context['staff_reports_month'] = staff_reports_month[:30]
+#
+#     return render(request, 'coursebank_reports/counts.html', context)
+
 
 @staff_member_required
 def index_reports(request):
