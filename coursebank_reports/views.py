@@ -227,20 +227,20 @@ def enrollment_list_view(request, course_id):
     queryset = queryset.filter(course=course)
 
     filter_username = request.GET.get('filter_username', None)
-    if filter_username is not None:
+    if filter_username is not None and filter_username != '':
         queryset = queryset.filter(user__username=filter_username)
 
     filter_email = request.GET.get('filter_email', None)
-    if filter_email is not None:
+    if filter_email is not None and filter_email != '':
         queryset = queryset.filter(user__email=filter_email)
 
     filter_mode = request.GET.get('filter_mode', None)
-    if filter_mode is not None:
+    if filter_mode is not None and filter_mode != '':
         if filter_mode != 'all':
             queryset = queryset.filter(mode=filter_mode)
 
     filter_active = request.GET.get('filter_active', None)
-    if filter_active is not None:
+    if filter_active is not None and filter_active != '':
         if filter_active == 'active':
             queryset = queryset.filter(is_active=True)
         elif filter_active == 'inactive':
@@ -271,7 +271,7 @@ def enrollment_list_view(request, course_id):
         'num_pages': num_pages,
         'page_range': page_range,
         'is_paginated': is_paginated,
-        'enrollment_count': queryset.count()
+        'enrollment_count': enrollment_count
     }
     return render(request, 'coursebank_reports/enrollments.html', context)
 
@@ -294,20 +294,20 @@ class EnrollmentListView(ListView):
         queryset = queryset.filter(course=course)
 
         filter_username = self.request.GET.get('filter_username', None)
-        if filter_username is not None:
+        if filter_username is not None and filter_username != '':
             queryset = queryset.filter(user__username=filter_username)
 
         filter_email = self.request.GET.get('filter_email', None)
-        if filter_email is not None:
+        if filter_email is not None and filter_email != '':
             queryset = queryset.filter(user__email=filter_email)
 
         filter_mode = self.request.GET.get('filter_mode', None)
-        if filter_mode is not None:
+        if filter_mode is not None and filter_mode != '':
             if filter_mode != 'all':
                 queryset = queryset.filter(mode=filter_mode)
 
         filter_active = self.request.GET.get('filter_active', None)
-        if filter_active is not None:
+        if filter_active is not None and filter_active != '':
             if filter_active == 'active':
                 queryset = queryset.filter(is_active=True)
             elif filter_active == 'inactive':
