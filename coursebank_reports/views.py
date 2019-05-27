@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 
@@ -194,7 +194,13 @@ def course_list_view(request):
 
     paginator = Paginator(queryset, 100)
     page = request.GET.get('page')
-    course_list = paginator.page(page)
+    try:
+        course_list = paginator.page(page)
+    except PageNotAnInteger:
+        course_list = paginator.page(1)
+    except EmptyPage:
+        course_list = paginator.page(paginator.num_pages)
+
     num_pages = paginator.num_pages
     page_range = paginator.page_range
 
@@ -246,7 +252,13 @@ def enrollment_list_view(request, course_id):
 
     paginator = Paginator(queryset, 100)
     page = request.GET.get('page')
-    enrollment_list = paginator.page(page)
+    try:
+        enrollment_list = paginator.page(page)
+    except PageNotAnInteger:
+        enrollment_list = paginator.page(1)
+    except EmptyPage:
+        enrollment_list = paginator.page(paginator.num_pages)
+
     num_pages = paginator.num_pages
     page_range = paginator.page_range
 
@@ -339,7 +351,13 @@ def course_enrollments_reports(request, course_id):
     course_enrollments_list = CourseEnrollment.objects.filter(course_id=course_id)
     paginator = Paginator(course_enrollments_list, 100)
     page = request.GET.get('page')
-    course_enrollments = paginator.page(page)
+    try:
+        course_enrollments = paginator.page(page)
+    except PageNotAnInteger:
+        course_enrollments = paginator.page(1)
+    except EmptyPage:
+        course_enrollments = paginator.page(paginator.num_pages)
+
     num_pages = paginator.num_pages
     page_range = paginator.page_range
 
@@ -424,7 +442,13 @@ def enrollments_users_reports(request, course_id):
     users_enrolled_in_list = CourseEnrollment.objects.users_enrolled_in(course_id, include_inactive=include_inactive)
     paginator = Paginator(users_enrolled_in_list, 100)
     page = request.GET.get('page')
-    users_enrolled_in = paginator.page(page)
+    try:
+        users_enrolled_in = paginator.page(page)
+    except PageNotAnInteger:
+        users_enrolled_in = paginator.page(1)
+    except EmptyPage:
+        users_enrolled_in = paginator.page(paginator.num_pages)
+
     num_pages = paginator.num_pages
     page_range = paginator.page_range
 
