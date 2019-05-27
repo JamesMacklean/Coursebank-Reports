@@ -9,6 +9,26 @@ from .models import CountReport
 from datetime import datetime, timedelta, time
 
 
+def remove_reports(months=3, weeks=None, days=None):
+    """
+    handler for removing reports
+    """
+    period = datetime.now().date()
+    if months:
+        period = period - timedelta(days=30*months)
+    if weeks:
+        period = period - timedelta(days=7*weeks)
+    if days:
+        period = period - timedelta(days=days)
+
+    reports = CountReport.objects.all()
+    reports_exclude_month_newest = reports.exclude(created__gte=period)
+    for report in reports_exclude_month_newest:
+        report.delete()
+
+    msg = "Finished removing reports."
+    return msg, True
+
 ##################
 # Course Counts #
 #################

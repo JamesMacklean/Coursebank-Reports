@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from coursebank_reports.generators import CourseCountReportGenerator
+from coursebank_reports.handlers import CourseCountReportGenerator
 
 import logging
 log = logging.getLogger(__name__)

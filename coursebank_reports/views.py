@@ -38,7 +38,7 @@ import datetime
 #     course_reports_week = course_reports.filter(created__gte=last_week)
 #     course_reports_month = course_reports.filter(created__gte=last_month)
 #     context['course_reports'] = course_reports
-#     context['course_reports_latest'] = course_reports.latest('created')
+#     context['course_reports_latest'] = course_reports[0]
 #     context['course_reports_week'] = course_reports_week[:7]
 #     context['course_reports_month'] = course_reports_month[:30]
 #
@@ -47,7 +47,7 @@ import datetime
 #     verified_course_reports_week = verified_course_reports.filter(created__gte=last_week)
 #     verified_course_reports_month = verified_course_reports.filter(created__gte=last_month)
 #     context['verified_course_reports'] = verified_course_reports
-#     context['verified_course_reports_latest'] = verified_course_reports.latest('created')
+#     context['verified_course_reports_latest'] = verified_course_reports[0]
 #     context['verified_course_reports_week'] = verified_course_reports_week[:7]
 #     context['verified_course_reports_month'] = verified_course_reports_month[:30]
 #
@@ -71,7 +71,7 @@ def enrollments_reports_view(request):
     enrollment_reports_week = enrollment_reports.filter(created__gte=last_week)
     enrollment_reports_month = enrollment_reports.filter(created__gte=last_month)
     context['enrollment_reports'] = enrollment_reports
-    context['enrollment_reports_latest'] = enrollment_reports.latest('created')
+    context['enrollment_reports_latest'] = enrollment_reports[0]
     context['enrollment_reports_week'] = enrollment_reports_week[:7]
     context['enrollment_reports_month'] = enrollment_reports_month[:30]
 
@@ -80,7 +80,7 @@ def enrollments_reports_view(request):
     enrollments_daily_reports_week = enrollments_daily_reports.filter(created__gte=last_week)
     enrollments_daily_reports_month = enrollments_daily_reports.filter(created__gte=last_month)
     context['enrollments_daily_reports'] = enrollments_daily_reports
-    context['enrollments_daily_reports_latest'] = enrollments_daily_reports.latest('created')
+    context['enrollments_daily_reports_latest'] = enrollments_daily_reports[0]
     context['enrollments_daily_reports_week'] = enrollments_daily_reports_week[:7]
     context['enrollments_daily_reports_month'] = enrollments_daily_reports_month[:30]
 
@@ -89,7 +89,7 @@ def enrollments_reports_view(request):
     verified_enrollment_reports_week = verified_enrollment_reports.filter(created__gte=last_week)
     verified_enrollment_reports_month = verified_enrollment_reports.filter(created__gte=last_month)
     context['verified_enrollment_reports'] = verified_enrollment_reports
-    context['verified_enrollment_reports_latest'] = verified_enrollment_reports.latest('created')
+    context['verified_enrollment_reports_latest'] = verified_enrollment_reports[0]
     context['verified_enrollment_reports_week'] = verified_enrollment_reports_week[:7]
     context['verified_enrollment_reports_month'] = verified_enrollment_reports_month[:30]
 
@@ -98,7 +98,7 @@ def enrollments_reports_view(request):
     verified_enrollments_daily_reports_week = verified_enrollments_daily_reports.filter(created__gte=last_week)
     verified_enrollments_daily_reports_month = verified_enrollments_daily_reports.filter(created__gte=last_month)
     context['verified_enrollments_daily_reports'] = verified_enrollments_daily_reports
-    context['verified_enrollments_daily_reports_latest'] = verified_enrollments_daily_reports.latest('created')
+    context['verified_enrollments_daily_reports_latest'] = verified_enrollments_daily_reports[0]
     context['verified_enrollments_daily_reports_week'] = verified_enrollments_daily_reports_week[:7]
     context['verified_enrollments_daily_reports_month'] = verified_enrollments_daily_reports_month[:30]
 
@@ -107,7 +107,7 @@ def enrollments_reports_view(request):
     audit_enrollment_reports_week = audit_enrollment_reports.filter(created__gte=last_week)
     audit_enrollment_reports_month = audit_enrollment_reports.filter(created__gte=last_month)
     context['audit_enrollment_reports'] = audit_enrollment_reports
-    context['audit_enrollment_reports_latest'] = audit_enrollment_reports.latest('created')
+    context['audit_enrollment_reports_latest'] = audit_enrollment_reports[0]
     context['audit_enrollment_reports_week'] = audit_enrollment_reports_week[:7]
     context['audit_enrollment_reports_month'] = audit_enrollment_reports_month[:30]
 
@@ -116,7 +116,7 @@ def enrollments_reports_view(request):
     audit_enrollments_daily_reports_week = audit_enrollments_daily_reports.filter(created__gte=last_week)
     audit_enrollments_daily_reports_month = audit_enrollments_daily_reports.filter(created__gte=last_month)
     context['audit_enrollments_daily_reports'] = audit_enrollments_daily_reports
-    context['audit_enrollments_daily_reports_latest'] = audit_enrollments_daily_reports.latest('created')
+    context['audit_enrollments_daily_reports_latest'] = audit_enrollments_daily_reports[0]
     context['audit_enrollments_daily_reports_week'] = audit_enrollments_daily_reports_week[:7]
     context['audit_enrollments_daily_reports_month'] = audit_enrollments_daily_reports_month[:30]
 
@@ -140,7 +140,7 @@ def user_reports_view(request):
     user_reports_week = user_reports.filter(created__gte=last_week)
     user_reports_month = user_reports.filter(created__gte=last_month)
     context['user_reports'] = user_reports
-    context['user_reports_latest'] = user_reports.latest('created')
+    context['user_reports_latest'] = user_reports[0]
     context['user_reports_week'] = user_reports_week[:7]
     context['user_reports_month'] = user_reports_month[:30]
 
@@ -149,7 +149,7 @@ def user_reports_view(request):
     registration_daily_reports_week = registration_daily_reports.filter(created__gte=last_week)
     registration_daily_reports_month = registration_daily_reports.filter(created__gte=last_month)
     context['registration_daily_reports'] = registration_daily_reports
-    context['registration_daily_reports_latest'] = registration_daily_reports.latest('created')
+    context['registration_daily_reports_latest'] = registration_daily_reports[0]
     context['registration_daily_reports_week'] = registration_daily_reports_week[:7]
     context['registration_daily_reports_month'] = registration_daily_reports_month[:30]
 
@@ -158,7 +158,7 @@ def user_reports_view(request):
     active_reports_week = active_reports.filter(created__gte=last_week)
     active_reports_month = active_reports.filter(created__gte=last_month)
     context['active_reports'] = active_reports
-    context['active_reports_latest'] = active_reports.latest('created')
+    context['active_reports_latest'] = active_reports[0]
     context['active_reports_week'] = active_reports_week[:7]
     context['active_reports_month'] = active_reports_month[:30]
 
@@ -167,7 +167,7 @@ def user_reports_view(request):
     active_daily_reports_week = active_daily_reports.filter(created__gte=last_week)
     active_daily_reports_month = active_daily_reports.filter(created__gte=last_month)
     context['active_daily_reports'] = active_daily_reports
-    context['active_daily_reports_latest'] = active_daily_reports.latest('created')
+    context['active_daily_reports_latest'] = active_daily_reports[0]
     context['active_daily_reports_week'] = active_daily_reports_week[:7]
     context['active_daily_reports_month'] = active_daily_reports_month[:30]
 
@@ -191,7 +191,7 @@ def user_reports_view(request):
 #     registration_reports_week = registration_reports.filter(created__gte=last_week)
 #     registration_reports_month = registration_reports.filter(created__gte=last_month)
 #     context['registration_reports'] = registration_reports
-#     context['registration_reports_latest'] = registration_reports.latest('created')
+#     context['registration_reports_latest'] = registration_reports[0]
 #     context['registration_reports_week'] = registration_reports_week[:7]
 #     context['registration_reports_month'] = registration_reports_month[:30]
 #
@@ -200,7 +200,7 @@ def user_reports_view(request):
 #     inactive_reports_week = inactive_reports.filter(created__gte=last_week)
 #     inactive_reports_month = inactive_reports.filter(created__gte=last_month)
 #     context['inactive_reports'] = inactive_reports
-#     context['inactive_reports_latest'] = inactive_reports.latest('created')
+#     context['inactive_reports_latest'] = inactive_reports[0]
 #     context['inactive_reports_week'] = inactive_reports_week[:7]
 #     context['inactive_reports_month'] = inactive_reports_month[:30]
 #
@@ -209,7 +209,7 @@ def user_reports_view(request):
 #     non_staff_reports_week = non_staff_reports.filter(created__gte=last_week)
 #     non_staff_reports_month = non_staff_reports.filter(created__gte=last_month)
 #     context['non_staff_reports'] = non_staff_reports
-#     context['non_staff_reports_latest'] = non_staff_reports.latest('created')
+#     context['non_staff_reports_latest'] = non_staff_reports[0]
 #     context['non_staff_reports_week'] = non_staff_reports_week[:7]
 #     context['non_staff_reports_month'] = non_staff_reports_month[:30]
 #
@@ -218,7 +218,7 @@ def user_reports_view(request):
 #     staff_reports_week = staff_reports.filter(created__gte=last_week)
 #     staff_reports_month = staff_reports.filter(created__gte=last_month)
 #     context['staff_reports'] = staff_reports
-#     context['staff_reports_latest'] = staff_reports.latest('created')
+#     context['staff_reports_latest'] = staff_reports[0]
 #     context['staff_reports_week'] = staff_reports_week[:7]
 #     context['staff_reports_month'] = staff_reports_month[:30]
 #
@@ -263,12 +263,12 @@ def index_reports(request):
 def course_list_view(request):
     queryset = CourseOverview.objects.all()
 
-    filter_org = request.GET.get('filter_org', None)
-    if filter_org is not None or filter_org != '':
+    filter_org = request.GET.get('filter_org')
+    if filter_org:
         queryset = queryset.filter(org__contains=filter_org)
 
-    filter_display_name = request.GET.get('filter_display_name', None)
-    if filter_display_name is not None or filter_display_name != '':
+    filter_display_name = request.GET.get('filter_display_name')
+    if filter_display_name:
         queryset = queryset.filter(display_name__contains=filter_display_name)
 
     if queryset.exists():
