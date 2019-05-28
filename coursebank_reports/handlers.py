@@ -53,7 +53,7 @@ class CourseCountReportGenerator:
         """
         Method for generating reports
         """
-        if self.course_overviews.exists()
+        if self.course_overviews.exists():
             course_overview_count = self.course_overviews.count()
         else:
             course_overview_count = 0
@@ -67,7 +67,7 @@ class CourseCountReportGenerator:
         """
         Method for generating reports
         """
-        if self.verified_courses.exists()
+        if self.verified_courses.exists():
             verified_course_count = self.verified_courses.count()
         else:
             verified_course_count = 0
@@ -82,7 +82,7 @@ class CourseCountReportGenerator:
         """
         Method for generating reports
         """
-        if self.total_enrollments.exists()
+        if self.total_enrollments.exists():
             enrollment_count = self.total_enrollments.count()
         else:
             enrollment_count = 0
@@ -111,7 +111,7 @@ class CourseCountReportGenerator:
         """
         Method for generating reports
         """
-        if self.verified_enrollments.exists()
+        if self.verified_enrollments.exists():
             verified_enrollment_count = self.verified_enrollments.count()
         else:
             verified_enrollment_count = 0
@@ -126,7 +126,7 @@ class CourseCountReportGenerator:
         Method for generating reports
         """
         verified_enrollments_today = self.verified_enrollments.filter(created__lte=today_end).filter(created__gte=today_start)
-        if verified_enrollments_today.exists()
+        if verified_enrollments_today.exists():
             verified_enrollments_today_count = verified_enrollments_today.count()
         else:
             verified_enrollments_today_count = 0
@@ -140,7 +140,7 @@ class CourseCountReportGenerator:
         """
         Method for generating reports
         """
-        if self.audit_enrollments.exists()
+        if self.audit_enrollments.exists():
             audit_enrollment_count = self.audit_enrollments.count()
         else:
             audit_enrollment_count = 0
@@ -155,7 +155,7 @@ class CourseCountReportGenerator:
         Method for generating reports
         """
         audit_enrollments_today = self.audit_enrollments.filter(created__lte=today_end).filter(created__gte=today_start)
-        if audit_enrollments_today.exists()
+        if audit_enrollments_today.exists():
             audit_enrollments_today_count = audit_enrollments_today.count()
         else:
             audit_enrollments_today_count = 0
@@ -181,7 +181,7 @@ class UserCountReportGenerator:
         """
         Method for generating registration count reports
         """
-        if self.registrations.exists()
+        if self.registrations.exists():
             registration_count = self.registrations.count()
         else:
             registration_count = 0
@@ -196,7 +196,7 @@ class UserCountReportGenerator:
         Method for generating registration count reports
         """
         registrations_today = self.users.filter(date_joined__lte=today_end).filter(date_joined__gte=today_start)
-        if registrations_today.exists()
+        if registrations_today.exists():
             registrations_today_count = registrations_today.count()
         else:
             registrations_today_count = 0
@@ -210,7 +210,7 @@ class UserCountReportGenerator:
         """
         Method for generating user_count reports
         """
-        if self.users.exists()
+        if self.users.exists():
             user_count = self.users.count()
         else:
             user_count = 0
@@ -224,7 +224,7 @@ class UserCountReportGenerator:
         """
         Method for generating active_user_count reports
         """
-        if self.active_users.exists()
+        if self.active_users.exists():
             active_user_count = self.active_users.count()
         else:
             active_user_count = 0
@@ -239,7 +239,7 @@ class UserCountReportGenerator:
         Method for generating registration count reports
         """
         active_users_today = self.active_users.filter(date_joined__lte=today_end).filter(date_joined__gte=today_start)
-        if active_users_today.exists()
+        if active_users_today.exists():
             active_users_today_count = active_users_today.count()
         else:
             active_users_today_count = 0
@@ -253,7 +253,7 @@ class UserCountReportGenerator:
         """
         Method for generating inactive_user_count reports
         """
-        if self.inactive_users.exists()
+        if self.inactive_users.exists():
             inactive_user_count = self.inactive_users.count()
         else:
             inactive_user_count = 0
@@ -267,7 +267,7 @@ class UserCountReportGenerator:
         """
         Method for generating non_staff_user_count reports
         """
-        if self.non_staff_users.exists()
+        if self.non_staff_users.exists():
             non_staff_user_count = self.non_staff_users.count()
         else:
             non_staff_user_count = 0
@@ -281,7 +281,7 @@ class UserCountReportGenerator:
         """
         Method for generating staff_user_count reports
         """
-        if self.staff_users.exists()
+        if self.staff_users.exists():
             staff_user_count = self.staff_users.count()
         else:
             staff_user_count = 0
