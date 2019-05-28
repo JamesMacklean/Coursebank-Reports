@@ -70,13 +70,9 @@
   function drawUserChart() {
     var data = google.visualization.arrayToDataTable([
       ['Day', 'Count per day'],
-      ['6 Days Ago', {{ user_reports_week[6].count_value }}],
-      ['5 Days Ago', {{ user_reports_week[5].count_value }}],
-      ['4 Days Ago', {{ user_reports_week[4].count_value }}],
-      ['3 Days Ago', {{ user_reports_week[3].count_value }}],
-      ['2 Days Ago', {{ user_reports_week[2].count_value }}],
-      ['Yesterday', {{ user_reports_week[1].count_value }}],
-      ['Today', {{ user_reports_week[0].count_value }}],
+      {% for report in user_reports_week %}
+      [{{ report.created }}, {{ report.count_value }}],
+      {% endfor %}
     ]);
 
     // Optional; add a title and set the width and height of the chart
@@ -90,13 +86,9 @@
   function drawDailyRegistrationsChart() {
     var data = google.visualization.arrayToDataTable([
       ['Day', 'Count per day'],
-      ['6 Days Ago', {{ registration_daily_reports_week[6].count_value }}],
-      ['5 Days Ago', {{ registration_daily_reports_week[5].count_value }}],
-      ['4 Days Ago', {{ registration_daily_reports_week[4].count_value }}],
-      ['3 Days Ago', {{ registration_daily_reports_week[3].count_value }}],
-      ['2 Days Ago', {{ registration_daily_reports_week[2].count_value }}],
-      ['Yesterday', {{ registration_daily_reports_week[1].count_value }}],
-      ['Today', {{ registration_daily_reports_week[0].count_value }}],
+      {% for report in registration_daily_reports_week %}
+      [{{ report.created }}, {{ report.count_value }}],
+      {% endfor %}
     ]);
 
     // Optional; add a title and set the width and height of the chart
@@ -110,13 +102,9 @@
   function drawActiveChart() {
     var data = google.visualization.arrayToDataTable([
       ['Day', 'Count per day'],
-      ['6 Days Ago', {{ active_reports_week[6].count_value }}],
-      ['5 Days Ago', {{ active_reports_week[5].count_value }}],
-      ['4 Days Ago', {{ active_reports_week[4].count_value }}],
-      ['3 Days Ago', {{ active_reports_week[3].count_value }}],
-      ['2 Days Ago', {{ active_reports_week[2].count_value }}],
-      ['Yesterday', {{ active_reports_week[1].count_value }}],
-      ['Today', {{ active_reports_week[0].count_value }}],
+      {% for report in active_reports_week %}
+      [{{ report.created }}, {{ report.count_value }}],
+      {% endfor %}
     ]);
 
     // Optional; add a title and set the width and height of the chart
@@ -130,13 +118,9 @@
   function drawDailyActiveChart() {
     var data = google.visualization.arrayToDataTable([
       ['Day', 'Count per day'],
-      ['6 Days Ago', {{ active_daily_reports_week[6].count_value }}],
-      ['5 Days Ago', {{ active_daily_reports_week[5].count_value }}],
-      ['4 Days Ago', {{ active_daily_reports_week[4].count_value }}],
-      ['3 Days Ago', {{ active_daily_reports_week[3].count_value }}],
-      ['2 Days Ago', {{ active_daily_reports_week[2].count_value }}],
-      ['Yesterday', {{ active_daily_reports_week[1].count_value }}],
-      ['Today', {{ active_daily_reports_week[0].count_value }}],
+      {% for report in active_daily_reports_week %}
+      [{{ report.created }}, {{ report.count_value }}],
+      {% endfor %}
     ]);
 
     // Optional; add a title and set the width and height of the chart

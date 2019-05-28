@@ -98,13 +98,9 @@
   function drawEnrollmentChart() {
     var data = google.visualization.arrayToDataTable([
       ['Day', 'Count per day'],
-      ['6 Days Ago', {{ enrollment_reports_week[6].count_value }}],
-      ['5 Days Ago', {{ enrollment_reports_week[5].count_value }}],
-      ['4 Days Ago', {{ enrollment_reports_week[4].count_value }}],
-      ['3 Days Ago', {{ enrollment_reports_week[3].count_value }}],
-      ['2 Days Ago', {{ enrollment_reports_week[2].count_value }}],
-      ['Yesterday', {{ enrollment_reports_week[1].count_value }}],
-      ['Today', {{ enrollment_reports_week[0].count_value }}],
+      {% for report in enrollment_reports_week %}
+      [{{ report.created }}, {{ report.count_value }}],
+      {% endfor %}
     ]);
 
     // Optional; add a title and set the width and height of the chart
@@ -118,13 +114,9 @@
   function drawDailyEnrollmentsChart() {
     var data = google.visualization.arrayToDataTable([
       ['Day', 'Count per day'],
-      ['6 Days Ago', {{ enrollments_daily_reports_week[6].count_value }}],
-      ['5 Days Ago', {{ enrollments_daily_reports_week[5].count_value }}],
-      ['4 Days Ago', {{ enrollments_daily_reports_week[4].count_value }}],
-      ['3 Days Ago', {{ enrollments_daily_reports_week[3].count_value }}],
-      ['2 Days Ago', {{ enrollments_daily_reports_week[2].count_value }}],
-      ['Yesterday', {{ enrollments_daily_reports_week[1].count_value }}],
-      ['Today', {{ enrollments_daily_reports_week[0].count_value }}],
+      {% for report in enrollments_daily_reports_week %}
+      [{{ report.created }}, {{ report.count_value }}],
+      {% endfor %}
     ]);
 
     // Optional; add a title and set the width and height of the chart
@@ -138,13 +130,9 @@
   function drawVerifiedChart() {
     var data = google.visualization.arrayToDataTable([
       ['Day', 'Count per day'],
-      ['6 Days Ago', {{ verified_enrollment_reports_week[6].count_value }}],
-      ['5 Days Ago', {{ verified_enrollment_reports_week[5].count_value }}],
-      ['4 Days Ago', {{ verified_enrollment_reports_week[4].count_value }}],
-      ['3 Days Ago', {{ verified_enrollment_reports_week[3].count_value }}],
-      ['2 Days Ago', {{ verified_enrollment_reports_week[2].count_value }}],
-      ['Yesterday', {{ verified_enrollment_reports_week[1].count_value }}],
-      ['Today', {{ verified_enrollment_reports_week[0].count_value }}],
+      {% for report in verified_enrollment_reports_week %}
+      [{{ report.created }}, {{ report.count_value }}],
+      {% endfor %}
     ]);
 
     // Optional; add a title and set the width and height of the chart
@@ -158,13 +146,9 @@
   function drawDailyVerifiedChart() {
     var data = google.visualization.arrayToDataTable([
       ['Day', 'Count per day'],
-      ['6 Days Ago', {{ verified_enrollments_daily_reports_week[6].count_value }}],
-      ['5 Days Ago', {{ verified_enrollments_daily_reports_week[5].count_value }}],
-      ['4 Days Ago', {{ verified_enrollments_daily_reports_week[4].count_value }}],
-      ['3 Days Ago', {{ verified_enrollments_daily_reports_week[3].count_value }}],
-      ['2 Days Ago', {{ verified_enrollments_daily_reports_week[2].count_value }}],
-      ['Yesterday', {{ verified_enrollments_daily_reports_week[1].count_value }}],
-      ['Today', {{ verified_enrollments_daily_reports_week[0].count_value }}],
+      {% for report in verified_enrollments_daily_reports_week %}
+      [{{ report.created }}, {{ report.count_value }}],
+      {% endfor %}
     ]);
 
     // Optional; add a title and set the width and height of the chart
@@ -178,13 +162,9 @@
   function drawAuditChart() {
     var data = google.visualization.arrayToDataTable([
       ['Day', 'Count per day'],
-      ['6 Days Ago', {{ audit_enrollment_reports_week[6].count_value }}],
-      ['5 Days Ago', {{ audit_enrollment_reports_week[5].count_value }}],
-      ['4 Days Ago', {{ audit_enrollment_reports_week[4].count_value }}],
-      ['3 Days Ago', {{ audit_enrollment_reports_week[3].count_value }}],
-      ['2 Days Ago', {{ audit_enrollment_reports_week[2].count_value }}],
-      ['Yesterday', {{ audit_enrollment_reports_week[1].count_value }}],
-      ['Today', {{ audit_enrollment_reports_week[0].count_value }}],
+      {% for report in audit_enrollment_reports_week %}
+      [{{ report.created }}, {{ report.count_value }}],
+      {% endfor %}
     ]);
 
     // Optional; add a title and set the width and height of the chart
@@ -198,13 +178,9 @@
   function drawDailyAudiChart() {
     var data = google.visualization.arrayToDataTable([
       ['Day', 'Count per day'],
-      ['6 Days Ago', {{ audit_enrollments_daily_reports_week[6].count_value }}],
-      ['5 Days Ago', {{ audit_enrollments_daily_reports_week[5].count_value }}],
-      ['4 Days Ago', {{ audit_enrollments_daily_reports_week[4].count_value }}],
-      ['3 Days Ago', {{ audit_enrollments_daily_reports_week[3].count_value }}],
-      ['2 Days Ago', {{ audit_enrollments_daily_reports_week[2].count_value }}],
-      ['Yesterday', {{ audit_enrollments_daily_reports_week[1].count_value }}],
-      ['Today', {{ audit_enrollments_daily_reports_week[0].count_value }}],
+      {% for report in audit_enrollments_daily_reports_week %}
+      [{{ report.created }}, {{ report.count_value }}],
+      {% endfor %}
     ]);
 
     // Optional; add a title and set the width and height of the chart
