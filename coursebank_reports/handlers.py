@@ -96,7 +96,7 @@ class CourseCountReportGenerator:
         """
         Method for generating reports
         """
-        enrollments_today = self.total_enrollments.filter(created__lte=today_end).filter(created__gte=today_start)
+        enrollments_today = self.total_enrollments.filter(created__lte=self.today_end).filter(created__gte=self.today_start)
         if enrollments_today.exists():
             enrollments_today_count = enrollments_today.count()
         else:
@@ -125,7 +125,7 @@ class CourseCountReportGenerator:
         """
         Method for generating reports
         """
-        verified_enrollments_today = self.verified_enrollments.filter(created__lte=today_end).filter(created__gte=today_start)
+        verified_enrollments_today = self.verified_enrollments.filter(created__lte=self.today_end).filter(created__gte=self.today_start)
         if verified_enrollments_today.exists():
             verified_enrollments_today_count = verified_enrollments_today.count()
         else:
@@ -154,7 +154,7 @@ class CourseCountReportGenerator:
         """
         Method for generating reports
         """
-        audit_enrollments_today = self.audit_enrollments.filter(created__lte=today_end).filter(created__gte=today_start)
+        audit_enrollments_today = self.audit_enrollments.filter(created__lte=self.today_end).filter(created__gte=self.today_start)
         if audit_enrollments_today.exists():
             audit_enrollments_today_count = audit_enrollments_today.count()
         else:
@@ -170,6 +170,11 @@ class UserCountReportGenerator:
     """
     Class for generating user counts
     """
+    today = datetime.now().date()
+    tomorrow = today + timedelta(1)
+    today_start = datetime.combine(today, time())
+    today_end = datetime.combine(tomorrow, time())
+
     registrations = Registration.objects.all()
     users = User.objects.all()
     active_users = users.filter(is_active=True)
@@ -195,7 +200,7 @@ class UserCountReportGenerator:
         """
         Method for generating registration count reports
         """
-        registrations_today = self.users.filter(date_joined__lte=today_end).filter(date_joined__gte=today_start)
+        registrations_today = self.users.filter(date_joined__lte=self.today_end).filter(date_joined__gte=self.today_start)
         if registrations_today.exists():
             registrations_today_count = registrations_today.count()
         else:
@@ -238,7 +243,7 @@ class UserCountReportGenerator:
         """
         Method for generating registration count reports
         """
-        active_users_today = self.active_users.filter(date_joined__lte=today_end).filter(date_joined__gte=today_start)
+        active_users_today = self.active_users.filter(date_joined__lte=self.today_end).filter(date_joined__gte=self.today_start)
         if active_users_today.exists():
             active_users_today_count = active_users_today.count()
         else:
