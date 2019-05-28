@@ -41,14 +41,14 @@
   </div>
 
   <div class="mx-auto">
-    <h3>Total Active Users</h3>
+    <h3>Total Activated Users</h3>
     <h5>Total: {{ active_reports_latest.count_value }}</h5>
     <h5>Total By Week:</h5>
     <div id="activereportschart"></div>
   </div>
 
   <div class="mx-auto">
-    <h3>Daily Active Users</h3>
+    <h3>Daily Activated Users</h3>
     <h5>Total: {{ active_daily_reports_latest.count_value }}</h5>
     <h5>Total By Week:</h5>
     <div id="dailyactivereportschart"></div>
@@ -124,7 +124,7 @@
     ]);
 
     // Optional; add a title and set the width and height of the chart
-    var options = {'title':'Daily Active Users', 'width':900, 'height':550};
+    var options = {'title':'Daily Activated Users', 'width':900, 'height':550};
 
     // Display the chart inside the <div> element with id="piechart"
     var chart = new google.visualization.ColumnChart(document.getElementById('dailyactivereportschart'));
