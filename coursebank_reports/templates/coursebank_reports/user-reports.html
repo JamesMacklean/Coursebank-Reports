@@ -71,7 +71,7 @@
     var data = google.visualization.arrayToDataTable([
       ['Day', 'Count per day'],
       {% for report in user_reports_week %}
-      [{{ report.created }}, {{ report.count_value }}],
+      ['{{ report.created|date:"D,y/n/j" }}', {{ report.count_value }}],
       {% endfor %}
     ]);
 
@@ -87,7 +87,7 @@
     var data = google.visualization.arrayToDataTable([
       ['Day', 'Count per day'],
       {% for report in registration_daily_reports_week %}
-      [{{ report.created }}, {{ report.count_value }}],
+      ['{{ report.created|date:"D,y/n/j" }}', {{ report.count_value }}],
       {% endfor %}
     ]);
 
@@ -103,7 +103,7 @@
     var data = google.visualization.arrayToDataTable([
       ['Day', 'Count per day'],
       {% for report in active_reports_week %}
-      [{{ report.created }}, {{ report.count_value }}],
+      ['{{ report.created|date:"D,y/n/j" }}', {{ report.count_value }}],
       {% endfor %}
     ]);
 
@@ -119,7 +119,7 @@
     var data = google.visualization.arrayToDataTable([
       ['Day', 'Count per day'],
       {% for report in active_daily_reports_week %}
-      [{{ report.created }}, {{ report.count_value }}],
+      ['{{ report.created|date:"D,y/n/j" }}', {{ report.count_value }}],
       {% endfor %}
     ]);
 
