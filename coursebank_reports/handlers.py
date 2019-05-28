@@ -171,7 +171,7 @@ class UserCountReportGenerator:
     Class for generating user counts
     """
     registrations = Registration.objects.all()
-    users = Users.objects.all()
+    users = User.objects.all()
     active_users = users.filter(is_active=True)
     inactive_users = users.filter(is_active=False)
     non_staff_users = active_users.filter(is_staff=False)
