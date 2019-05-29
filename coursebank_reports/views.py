@@ -290,9 +290,9 @@ def enrollment_list_view(request, course_id, export_csv=False):
             )
             csv_data += (tuple,)
         t = loader.get_template('coursebank_reports/enrollment_csv_template.txt')
-        csv_ctx = Context({
+        csv_ctx = {
             'data': csv_data,
-        })
+        }
         response.write(t.render(csv_ctx))
         return response
 
