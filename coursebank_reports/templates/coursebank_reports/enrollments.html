@@ -57,7 +57,7 @@
   <tbody>
     {% for enrollment in enrollment_list %}
     <tr>
-      <td><a href="{% url 'course-enrollments-user-detail' course_id=course.id id=enrollment.user.id %}">{{ enrollment.user.username }}</a></td>
+      <td>{{ enrollment.user.username }}</td>
       <td>{{ enrollment.user.email }}</td>
       <td>{{ enrollment.mode }}</td>
       <td>{{ enrollment.is_active }}</td>
