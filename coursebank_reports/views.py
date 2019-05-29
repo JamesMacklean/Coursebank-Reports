@@ -1,8 +1,9 @@
 from django.conf import settings
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import render
+from django.template import loader, Context
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 
@@ -217,7 +218,7 @@ def course_list_view(request):
 
 
 @staff_member_required
-def enrollment_list_view(request, course_id):
+def enrollment_list_view(request, course_id, export_csv=False):
     queryset = CourseEnrollment.objects.all()
     course_key = CourseKey.from_string(course_id)
     try:
@@ -273,4 +274,26 @@ def enrollment_list_view(request, course_id):
         'is_paginated': is_paginated,
         'enrollment_count': enrollment_count
     }
+
+    if export_csv:
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="enrollmentslist.csv"'
+        csv_data = (
+            ('username', 'email', 'mode', 'is_active'),
+        )
+        for enrollment in queryset:
+            tuple = (
+                "".format(enrollment.user.username),
+                "".format(enrollment.user.email),
+                "".format(enrollment.mode),
+                "".format(enrollment.is_active),
+            )
+            csv_data += (tuple,)
+        t = loader.get_template('enrollment_csv_template.txt')
+        csv_ctx = Context({
+            'data': csv_data,
+        })
+        response.write(t.render(csv_ctx))
+        return response
+
     return render(request, 'coursebank_reports/enrollments.html', context)

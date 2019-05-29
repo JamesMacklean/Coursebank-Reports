@@ -17,29 +17,32 @@
 <h3>Course Partner: {{ course.display_org_with_default }}</h3>
 
 <h5>Filter:</h5>
-<form method="GET" action="" id="searchform">
-  <label for="filter_username">Username</label>
-  <input name="filter_username" type="text" value="{{ request.GET.filter_username }}" placeholder="sampleuser123"/>
+<div class="row">
+  <form method="GET" action="" id="searchform">
+    <label for="filter_username">Username</label>
+    <input name="filter_username" type="text" value="{{ request.GET.filter_username }}" placeholder="sampleuser123"/>
 
-  <label for="filter_email">Email</label>
-  <input name="filter_email" type="text" value="{{ request.GET.filter_email }}" placeholder="email@example.com"/>
+    <label for="filter_email">Email</label>
+    <input name="filter_email" type="text" value="{{ request.GET.filter_email }}" placeholder="email@example.com"/>
 
-  <label for="filter_mode">Mode</label>
-  <select name="filter_mode">
-    <option value="all">All</option>
-    <option value="audit">Audit</option>
-    <option value="verified">Verified</option>
-  </select>
+    <label for="filter_mode">Mode</label>
+    <select name="filter_mode">
+      <option value="all">All</option>
+      <option value="audit">Audit</option>
+      <option value="verified">Verified</option>
+    </select>
 
-  <label for="filter_active">Active</label>
-  <select name="filter_active">
-    <option value="active">Active</option>
-    <option value="inactive">Inactive</option>
-    <option value="all">All</option>
-  </select>
+    <label for="filter_active">Active</label>
+    <select name="filter_active">
+      <option value="active">Active</option>
+      <option value="inactive">Inactive</option>
+      <option value="all">All</option>
+    </select>
 
-  <input type="submit" value="Filter" />
-</form>
+    <input class="btn btn-primary" type="submit" value="Filter" style="background-image: none;"/>
+  </form>
+  <a class="ml-1 btn btn-sm btn-outline-secondary" href="exportCSV">Export to CSV</a>
+</div>
 
 <h5>Enrollments Count: {{ enrollment_count }}</h5>
 <table class="table">
