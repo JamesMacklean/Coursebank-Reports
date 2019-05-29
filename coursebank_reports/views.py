@@ -39,8 +39,8 @@ def enrollments_reports_view(request):
     enrollment_reports_month = enrollment_reports.filter(created__gte=last_month)
     context['enrollment_reports'] = enrollment_reports
     context['enrollment_reports_latest'] = enrollment_reports.first()
-    context['enrollment_reports_week'] = enrollment_reports_week[:7]
-    context['enrollment_reports_month'] = enrollment_reports_month[:30]
+    context['enrollment_reports_week'] = enrollment_reports_week[:7].order_by('created')
+    context['enrollment_reports_month'] = enrollment_reports_month[:30].order_by('created')
 
     # Daily CourseEnrollments
     enrollments_daily_reports = queryset.filter(key="enrollments_today_count")
@@ -48,8 +48,8 @@ def enrollments_reports_view(request):
     enrollments_daily_reports_month = enrollments_daily_reports.filter(created__gte=last_month)
     context['enrollments_daily_reports'] = enrollments_daily_reports
     context['enrollments_daily_reports_latest'] = enrollments_daily_reports.first()
-    context['enrollments_daily_reports_week'] = enrollments_daily_reports_week[:7]
-    context['enrollments_daily_reports_month'] = enrollments_daily_reports_month[:30]
+    context['enrollments_daily_reports_week'] = enrollments_daily_reports_week[:7].order_by('created')
+    context['enrollments_daily_reports_month'] = enrollments_daily_reports_month[:30].order_by('created')
 
     # Verified CourseEnrollments
     verified_enrollment_reports = queryset.filter(key="verified_enrollment_count")
@@ -57,8 +57,8 @@ def enrollments_reports_view(request):
     verified_enrollment_reports_month = verified_enrollment_reports.filter(created__gte=last_month)
     context['verified_enrollment_reports'] = verified_enrollment_reports
     context['verified_enrollment_reports_latest'] = verified_enrollment_reports.first()
-    context['verified_enrollment_reports_week'] = verified_enrollment_reports_week[:7]
-    context['verified_enrollment_reports_month'] = verified_enrollment_reports_month[:30]
+    context['verified_enrollment_reports_week'] = verified_enrollment_reports_week[:7].order_by('created')
+    context['verified_enrollment_reports_month'] = verified_enrollment_reports_month[:30].order_by('created')
 
     # Daily Verified CourseEnrollments
     verified_enrollments_daily_reports = queryset.filter(key="verified_enrollments_today_count")
@@ -66,8 +66,8 @@ def enrollments_reports_view(request):
     verified_enrollments_daily_reports_month = verified_enrollments_daily_reports.filter(created__gte=last_month)
     context['verified_enrollments_daily_reports'] = verified_enrollments_daily_reports
     context['verified_enrollments_daily_reports_latest'] = verified_enrollments_daily_reports.first()
-    context['verified_enrollments_daily_reports_week'] = verified_enrollments_daily_reports_week[:7]
-    context['verified_enrollments_daily_reports_month'] = verified_enrollments_daily_reports_month[:30]
+    context['verified_enrollments_daily_reports_week'] = verified_enrollments_daily_reports_week[:7].order_by('created')
+    context['verified_enrollments_daily_reports_month'] = verified_enrollments_daily_reports_month[:30].order_by('created')
 
     # Audit CourseEnrollments
     audit_enrollment_reports = queryset.filter(key="audit_enrollment_count")
@@ -75,8 +75,8 @@ def enrollments_reports_view(request):
     audit_enrollment_reports_month = audit_enrollment_reports.filter(created__gte=last_month)
     context['audit_enrollment_reports'] = audit_enrollment_reports
     context['audit_enrollment_reports_latest'] = audit_enrollment_reports.first()
-    context['audit_enrollment_reports_week'] = audit_enrollment_reports_week[:7]
-    context['audit_enrollment_reports_month'] = audit_enrollment_reports_month[:30]
+    context['audit_enrollment_reports_week'] = audit_enrollment_reports_week[:7].order_by('created')
+    context['audit_enrollment_reports_month'] = audit_enrollment_reports_month[:30].order_by('created')
 
     # Daily Audit CourseEnrollments
     audit_enrollments_daily_reports = queryset.filter(key="audit_enrollments_today_count")
@@ -84,8 +84,8 @@ def enrollments_reports_view(request):
     audit_enrollments_daily_reports_month = audit_enrollments_daily_reports.filter(created__gte=last_month)
     context['audit_enrollments_daily_reports'] = audit_enrollments_daily_reports
     context['audit_enrollments_daily_reports_latest'] = audit_enrollments_daily_reports.first()
-    context['audit_enrollments_daily_reports_week'] = audit_enrollments_daily_reports_week[:7]
-    context['audit_enrollments_daily_reports_month'] = audit_enrollments_daily_reports_month[:30]
+    context['audit_enrollments_daily_reports_week'] = audit_enrollments_daily_reports_week[:7].order_by('created')
+    context['audit_enrollments_daily_reports_month'] = audit_enrollments_daily_reports_month[:30].order_by('created')
 
     return render(request, 'coursebank_reports/enrollments-reports.html', context)
 
@@ -108,8 +108,8 @@ def user_reports_view(request):
     user_reports_month = user_reports.filter(created__gte=last_month)
     context['user_reports'] = user_reports
     context['user_reports_latest'] = user_reports.first()
-    context['user_reports_week'] = user_reports_week[:7]
-    context['user_reports_month'] = user_reports_month[:30]
+    context['user_reports_week'] = user_reports_week[:7].order_by('created')
+    context['user_reports_month'] = user_reports_month[:30].order_by('created')
 
     # Daily Registrations
     registration_daily_reports = queryset.filter(key="registrations_today_count")
@@ -117,8 +117,8 @@ def user_reports_view(request):
     registration_daily_reports_month = registration_daily_reports.filter(created__gte=last_month)
     context['registration_daily_reports'] = registration_daily_reports
     context['registration_daily_reports_latest'] = registration_daily_reports.first()
-    context['registration_daily_reports_week'] = registration_daily_reports_week[:7]
-    context['registration_daily_reports_month'] = registration_daily_reports_month[:30]
+    context['registration_daily_reports_week'] = registration_daily_reports_week[:7].order_by('created')
+    context['registration_daily_reports_month'] = registration_daily_reports_month[:30].order_by('created')
 
     # Active Users
     active_reports = queryset.filter(key="active_user_count")
@@ -126,8 +126,8 @@ def user_reports_view(request):
     active_reports_month = active_reports.filter(created__gte=last_month)
     context['active_reports'] = active_reports
     context['active_reports_latest'] = active_reports.first()
-    context['active_reports_week'] = active_reports_week[:7]
-    context['active_reports_month'] = active_reports_month[:30]
+    context['active_reports_week'] = active_reports_week[:7].order_by('created')
+    context['active_reports_month'] = active_reports_month[:30].order_by('created')
 
     # Daily Active Users
     active_daily_reports = queryset.filter(key="active_users_today_count")
@@ -135,8 +135,8 @@ def user_reports_view(request):
     active_daily_reports_month = active_daily_reports.filter(created__gte=last_month)
     context['active_daily_reports'] = active_daily_reports
     context['active_daily_reports_latest'] = active_daily_reports.first()
-    context['active_daily_reports_week'] = active_daily_reports_week[:7]
-    context['active_daily_reports_month'] = active_daily_reports_month[:30]
+    context['active_daily_reports_week'] = active_daily_reports_week[:7].order_by('created')
+    context['active_daily_reports_month'] = active_daily_reports_month[:30].order_by('created')
 
     return render(request, 'coursebank_reports/user-reports.html', context)
 
