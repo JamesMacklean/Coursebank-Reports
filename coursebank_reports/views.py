@@ -283,10 +283,10 @@ def enrollment_list_view(request, course_id, export_csv=False):
         )
         for enrollment in queryset:
             tuple = (
-                "".format(enrollment.user.username),
-                "".format(enrollment.user.email),
-                "".format(enrollment.mode),
-                "".format(enrollment.is_active),
+                "{}".format(enrollment.user.username),
+                "{}".format(enrollment.user.email),
+                "{}".format(enrollment.mode),
+                "{}".format(enrollment.is_active),
             )
             csv_data += (tuple,)
         t = loader.get_template('coursebank_reports/enrollment_csv_template.txt')
