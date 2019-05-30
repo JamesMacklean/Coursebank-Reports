@@ -27,14 +27,14 @@
 
     <label for="filter_mode">Mode</label>
     <select name="filter_mode">
-      <option value="all">All</option>
+      <option value="all" selected>All</option>
       <option value="audit">Audit</option>
       <option value="verified">Verified</option>
     </select>
 
     <label for="filter_active">Active</label>
     <select name="filter_active">
-      <option value="active">Active</option>
+      <option value="active" selected>Active</option>
       <option value="inactive">Inactive</option>
       <option value="all">All</option>
     </select>
@@ -45,7 +45,7 @@
 </div>
 
 <h5>Enrollments Count: {{ enrollment_count }}</h5>
-<table class="table">
+<table class="table table-hover">
   <thead>
     <tr>
       <th scope="col">Username</th>
