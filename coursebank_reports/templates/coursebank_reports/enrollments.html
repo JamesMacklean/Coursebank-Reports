@@ -51,6 +51,7 @@
       <th scope="col">Username</th>
       <th scope="col">Email</th>
       <th scope="col">Mode</th>
+      <th scope="col">Created</th>
       <th scope="col">Active</th>
     </tr>
   </thead>
@@ -60,10 +61,12 @@
       <td>{{ enrollment.user.username }}</td>
       <td>{{ enrollment.user.email }}</td>
       <td>{{ enrollment.mode }}</td>
+      <td>{{ enrollment.created }}</td>
       <td>{{ enrollment.is_active }}</td>
     </tr>
     {% empty %}
     <tr>
+      <td>-</td>
       <td>-</td>
       <td>-</td>
       <td>-</td>
