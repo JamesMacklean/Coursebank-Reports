@@ -50,6 +50,7 @@
     <tr>
       <th scope="col">Username</th>
       <th scope="col">Email</th>
+      <th scope="col">Full Name</th>
       <th scope="col">Mode</th>
       <th scope="col">Created</th>
       <th scope="col">Active</th>
@@ -60,12 +61,14 @@
     <tr>
       <td>{{ enrollment.user.username }}</td>
       <td>{{ enrollment.user.email }}</td>
+      <td>{{ enrollment.user.profile.name }}</td>
       <td>{{ enrollment.mode }}</td>
       <td>{{ enrollment.created|date:"Y-m-d" }}</td>
       <td>{{ enrollment.is_active }}</td>
     </tr>
     {% empty %}
     <tr>
+      <td>-</td>
       <td>-</td>
       <td>-</td>
       <td>-</td>
