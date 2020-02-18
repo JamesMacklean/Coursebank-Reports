@@ -61,7 +61,7 @@
       <td>{{ enrollment.user.username }}</td>
       <td>{{ enrollment.user.email }}</td>
       <td>{{ enrollment.mode }}</td>
-      <td>{{ enrollment.created }}</td>
+      <td>{{ enrollment.created|date:"Y-m-d" }}</td>
       <td>{{ enrollment.is_active }}</td>
     </tr>
     {% empty %}
