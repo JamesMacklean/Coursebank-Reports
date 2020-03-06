@@ -1,8 +1,13 @@
+import csv
+
+from django.contrib.auth.models import User
+from django.core.mail import EmailMessage
+
+from course_modes.models import CourseMode
+from courseware.models import StudentModule
 from opaque_keys.edx.keys import CourseKey
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 from student.models import Registration, UserProfile, CourseEnrollment
-from course_modes.models import CourseMode
-from django.contrib.auth.models import User
 
 from .models import CountReport
 
@@ -295,3 +300,45 @@ class UserCountReportGenerator:
             count_value=staff_user_count
         ).save()
         return staff_user_count_report
+
+
+def email_student_modules_durations(course_id):
+    tnow = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.000Z')
+
+    course_key = CourseKey.from_string(c.course_id)
+    try:
+        course_overview = CourseOverview.get_from_id(course_key)
+    except CourseOverview.DoesNotExist:
+        raise Exception("CourseOverview does not exist.")
+
+    enrollments = CourseEnrollment.objects.filter(course=course_overview)
+
+    student_list = []
+    for enrollment in enrollments:
+        student_data = {}
+        student_data['user'] = enrollment.user
+
+        get_modules = StudentModule.objects.filter(course_id=CourseKey.from_string(course_id), student=enrollment.user)
+
+        earliest_module = get_modules.order_by('created').first()
+        lastest_module = get_modules.order_by('-modified').first()
+        time_diff = lastest_module.modified - earliest_module.created
+
+        student_data['duration'] = time_diff.total_seconds()
+
+    file_name = '/home/ubuntu/tempfiles/sparta-list-of-users-problem-status-{}.csv'.format(course_id)
+    with open(file_name, mode='w') as apps_file:
+        writer = csv.writer(apps_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        writer.writerow(['Time generated:', tnow,])
+        writer.writerow(['Username', 'Email', 'Duration'])
+        for student in student_list:
+            writer.writerow([student['user'].username, student['user'].email, student['duration']])
+
+    email = EmailMessage(
+    'Coursebank Student Modules Durations for course with ID {}'.format(course_id),
+    'Attached file of Student Modules Durations ',
+    'no-reply-coursebank-reports@coursebank.ph',
+    ['junfel@buri.io',],
+    )
+    email.attach_file(file_name)
+    email.send()
