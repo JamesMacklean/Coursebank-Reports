@@ -305,7 +305,7 @@ class UserCountReportGenerator:
 def email_student_modules_durations(course_id):
     tnow = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.000Z')
 
-    course_key = CourseKey.from_string(c.course_id)
+    course_key = CourseKey.from_string(course_id)
     try:
         course_overview = CourseOverview.get_from_id(course_key)
     except CourseOverview.DoesNotExist:
@@ -326,7 +326,7 @@ def email_student_modules_durations(course_id):
 
         student_data['duration'] = time_diff.total_seconds()
 
-    file_name = '/home/ubuntu/tempfiles/sparta-list-of-users-problem-status-{}.csv'.format(course_id)
+    file_name = '/home/ubuntu/tempfiles/student-modules-durations-for-course-{}-{}.csv'.format(course_id, tnow)
     with open(file_name, mode='w') as apps_file:
         writer = csv.writer(apps_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         writer.writerow(['Time generated:', tnow,])
