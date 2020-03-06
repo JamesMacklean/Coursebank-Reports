@@ -325,6 +325,7 @@ def email_student_modules_durations(course_id):
         time_diff = lastest_module.modified - earliest_module.created
 
         student_data['duration'] = time_diff.total_seconds()
+        student_list.append(student_data)
 
     file_name = '/home/ubuntu/tempfiles/student-modules-durations-for-course-{}-{}.csv'.format(course_id, tnow)
     with open(file_name, mode='w') as apps_file:
