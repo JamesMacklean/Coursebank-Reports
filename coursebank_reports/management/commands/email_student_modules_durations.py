@@ -19,7 +19,7 @@ class Command(BaseCommand):
             help='set course ID',
         )
 
-    def handle(self, *args, **kwargs):
+    def handle(self, *args, **options):
         course_id = options.get('course', None)
 
         if not course_id:
