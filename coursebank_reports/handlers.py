@@ -320,11 +320,13 @@ def email_student_modules_durations(course_id):
 
         get_modules = StudentModule.objects.filter(course_id=CourseKey.from_string(course_id), student=enrollment.user)
 
-        earliest_module = get_modules.order_by('created').first()
-        lastest_module = get_modules.order_by('-modified').first()
-        time_diff = lastest_module.modified - earliest_module.created
+        total_duration = 0
+        for module in get_modules:
+            if module.module_type not in ['course', 'chapter', 'sequential']:
+                time_diff = module.modified - module.created
+                total_duration += time_diff.total_seconds()
 
-        student_data['duration'] = time_diff.total_seconds()
+        student_data['duration'] = total_duration
         student_list.append(student_data)
 
     file_name = '/home/ubuntu/tempfiles/student-modules-durations-for-course-{}-{}.csv'.format(course_id, tnow)
