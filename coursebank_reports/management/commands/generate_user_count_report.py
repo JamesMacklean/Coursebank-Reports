@@ -46,6 +46,8 @@ class Command(BaseCommand):
 
         users = User.objects.filter(date_joined__gte=start_date).filter(date_joined__lte=end_date)
 
+        self.stdout.write(self.style.HTTP_INFO("User count from {} to {}: {}".format(start_date_str, end_date_str, users.count())))
+
         start_text = "From: {}".format(start_date_str)
         end_text = "To {}".format(end_date_str)
 
