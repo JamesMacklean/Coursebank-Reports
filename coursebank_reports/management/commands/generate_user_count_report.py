@@ -29,10 +29,17 @@ class Command(BaseCommand):
             type=str,
             help='set end date',
         )
+        parser.add_argument(
+            '-a',
+            '--address',
+            type=str,
+            help='set email address if you want to email report',
+        )
 
     def handle(self, *args, **options):
         start_date_str = options.get('start', None)
         end_date_str = options.get('end', None)
+        email = options.get('address', None)
 
         if start_date_str is None:
             start_date_str = "2018-09-13" # date of first ever user date_joined
@@ -49,7 +56,7 @@ class Command(BaseCommand):
         self.stdout.write(self.style.HTTP_INFO("User count from {} to {}: {}".format(start_date_str, end_date_str, users.count())))
 
         start_text = "From: {}".format(start_date_str)
-        end_text = "To {}".format(end_date_str)
+        end_text = "To: {}".format(end_date_str)
 
         tnow = datetime.now().strftime('%Y-%m-%d')
 
@@ -62,14 +69,15 @@ class Command(BaseCommand):
             for user in users:
                 writer.writerow([user.username, user.email])
 
-        email = EmailMessage(
-        'Coursebank User Count Report - {}'.format(tnow),
-        'Attached file of Coursebank User Count Report',
-        'no-reply-user-count-report@coursebank.ph',
-        ['junfel@buri.io',],
-        )
-        email.attach_file(file_name)
-        email.send()
+        if email is not None:
+            email = EmailMessage(
+            'Coursebank User Count Report - {}'.format(tnow),
+            'Attached file of Coursebank User Count Report',
+            'no-reply-user-count-report@coursebank.ph',
+            [email,],
+            )
+            email.attach_file(file_name)
+            email.send()
 
 
         msg = 'Successfully generated user count report.'
