@@ -64,7 +64,7 @@ class Command(BaseCommand):
         'Coursebank User Count Report - {}'.format(tnow),
         'Attached file of Coursebank User Count Report',
         'no-reply-user-count-report@coursebank.ph',
-        [LOCAL_STAFF_EMAIL,],
+        ['junfel@buri.io',],
         )
         email.attach_file(file_name)
         email.send()
