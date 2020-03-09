@@ -15,9 +15,6 @@ class Command(BaseCommand):
     """
     help = 'This management command generates reports.'
 
-    class Command(BaseCommand):
-    help = 'Checks if user has completed a course.'
-
     def add_arguments(self, parser):
         parser.add_argument(
             '-s',
