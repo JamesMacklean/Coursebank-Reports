@@ -39,7 +39,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         start_date_str = options.get('start', None)
         end_date_str = options.get('end', None)
-        email = options.get('address', None)
+        address = options.get('address', None)
 
         if start_date_str is None:
             start_date_str = "2018-09-13" # date of first ever user date_joined
@@ -69,12 +69,12 @@ class Command(BaseCommand):
             for user in users:
                 writer.writerow([user.username, user.email])
 
-        if email is not None:
+        if address is not None:
             email = EmailMessage(
             'Coursebank User Count Report - {}'.format(tnow),
             'Attached file of Coursebank User Count Report',
             'no-reply-user-count-report@coursebank.ph',
-            [email,],
+            [address,],
             )
             email.attach_file(file_name)
             email.send()
