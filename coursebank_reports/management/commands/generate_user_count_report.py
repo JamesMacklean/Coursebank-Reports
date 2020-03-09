@@ -74,3 +74,4 @@ class Command(BaseCommand):
 
         msg = 'Successfully generated user count report.'
         log.info(msg)
+        self.stdout.write(self.style.SUCCESS(msg))
