@@ -362,6 +362,12 @@ def export_registered_user_profiles(email_address=None, **kwargs):
         writer.writerow(['Time generated:', tnow,])
         writer.writerow(['Username', 'Email', 'Name', 'Gender'])
         for user in users:
+            try:
+                name = user.profile.name
+                gender = user.profile.get_gender_display()
+            except:
+                name = ""
+                gender = ""
             writer.writerow([
                 user.username, user.email, user.profile.name, user.profile.get_gender_display()
                 ])
