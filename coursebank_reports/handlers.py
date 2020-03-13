@@ -1,3 +1,4 @@
+import csv
 import unicodecsv
 
 from django.contrib.auth.models import User
