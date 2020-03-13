@@ -369,7 +369,7 @@ def export_registered_user_profiles(email_address=None, **kwargs):
                 name = ""
                 gender = ""
             writer.writerow([
-                user.username, user.email, user.profile.name, user.profile.get_gender_display()
+                user.username, user.email, name, gender
                 ])
 
     if email_address:
