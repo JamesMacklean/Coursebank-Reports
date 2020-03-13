@@ -1,4 +1,4 @@
-import csv
+import unicodecsv
 
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
@@ -330,8 +330,8 @@ def email_student_modules_durations(course_id):
         student_list.append(student_data)
 
     file_name = '/home/ubuntu/tempfiles/student-modules-durations-for-course-{}-{}.csv'.format(course_id, tnow)
-    with open(file_name, mode='w') as apps_file:
-        writer = csv.writer(apps_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    with open(file_name, mode='w') as csv_file:
+        writer = unicodecsv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL,  encoding='utf-8')
         writer.writerow(['Time generated:', tnow,])
         writer.writerow(['Username', 'Email', 'Duration'])
         for student in student_list:
@@ -345,3 +345,32 @@ def email_student_modules_durations(course_id):
     )
     email.attach_file(file_name)
     email.send()
+
+
+def export_registered_user_profiles(email_address=None, **kwargs):
+    """"""
+    tnow = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.000Z')
+
+    users = User.objects.all()
+    if len(kwargs) > 0:
+        users = users.filter(**kwargs)
+
+    file_name = '/home/ubuntu/tempfiles/export-registered-user-profiles-{}.csv'.format(tnow)
+    with open(file_name, mode='w') as csv_file:
+        writer = unicodecsv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL,  encoding='utf-8')
+        writer.writerow(['Time generated:', tnow,])
+        writer.writerow(['Username', 'Email', 'Name', 'Gender'])
+        for user in users:
+            writer.writerow([
+                user.username, user.email, user.profile.name, user.profile.get_gender_display()
+                ])
+
+    if email_address:
+        email = EmailMessage(
+        'Coursebank Registered User Profiles',
+        'Attached file of Student Modules Durations ',
+        'no-reply-coursebank-reports@coursebank.ph',
+        [email_address,],
+        )
+        email.attach_file(file_name)
+        email.send()
