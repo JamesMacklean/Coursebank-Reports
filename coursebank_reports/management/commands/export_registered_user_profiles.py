@@ -16,7 +16,7 @@ class Command(BaseCommand):
             '-e',
             '--email',
             type=str,
-            help='set course ID',
+            help='set email to send report to',
         )
 
     def handle(self, *args, **options):

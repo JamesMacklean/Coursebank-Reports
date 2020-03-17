@@ -360,16 +360,26 @@ def export_registered_user_profiles(email_address=None, **kwargs):
     with open(file_name, mode='w') as csv_file:
         writer = unicodecsv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL,  encoding='utf-8')
         writer.writerow(['Time generated:', tnow,])
-        writer.writerow(['Username', 'Email', 'Name', 'Gender'])
+        writer.writerow(['Username', 'Email', 'Name', 'Gender', 'Age', 'Level of Education'])
         for user in users:
             try:
                 name = user.profile.name
+            except:
+                name = "N/A"
+            try:
                 gender = user.profile.get_gender_display()
             except:
-                name = ""
-                gender = ""
+                gender = "N/A"
+            try:
+                age = datetime.now().year - user.profile.year_of_birth
+            except:
+                age = "N/A"
+            try:
+                level_of_education = user.profile.get_level_of_education_display()
+            except:
+                level_of_education = "N/A"
             writer.writerow([
-                user.username, user.email, name, gender
+                user.username, user.email, name, gender, age, level_of_education
                 ])
 
     if email_address:
