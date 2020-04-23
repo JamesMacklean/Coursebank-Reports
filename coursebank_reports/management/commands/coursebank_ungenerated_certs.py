@@ -66,7 +66,7 @@ class Command(BaseCommand):
         parser.add_argument(
             '-u', '--username',
             metavar='USERNAME',
-            dest='user',
+            dest='username',
             help="Username to generate certificate for"
         )
 
@@ -189,7 +189,3 @@ class Command(BaseCommand):
                 ),
                 text_type(course_key)
             )
-
-
-
-
