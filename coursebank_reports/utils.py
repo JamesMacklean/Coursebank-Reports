@@ -34,7 +34,7 @@ def export_learner_profiles_with_cohort(course_id, email_address=None):
         if cert is not None and cert['status'] == "downloadable":
             date_completed = cert['created'].strftime('%Y-%m-%dT%H:%M:%S.000Z')
         else:
-            date_completed = None
+            date_completed = ""
 
         cohort_groups = e.user.course_groups.all()
 
