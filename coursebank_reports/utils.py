@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 
 from django.contrib.auth.models import User
 from opaque_keys.edx.keys import CourseKey
-from student.models import UserProfile
+from student.models import CourseEnrollment, UserProfile
 from lms.djangoapps.certificates.api import get_certificate_for_user
 from openedx.core.djangoapps.course_groups.models import CourseUserGroup
 import unicodecsv
@@ -17,7 +17,7 @@ def export_learner_profiles_with_cohort(course_id, email_address=None):
     tnow = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.000Z')
 
     course_key = CourseKey.from_string(course_id)
-    enrollments = UserProfile.objects.filter(
+    enrollments = CourseEnrollment.objects.filter(
         course_id=course_key,
         is_active=True
     )
@@ -32,13 +32,13 @@ def export_learner_profiles_with_cohort(course_id, email_address=None):
             date_completed = None
 
         try:
-            cohort_groups = e.users.course_groups
+            cohort_groups = e.users.course_groups.all()
         except:
             continue
 
-        for g in cohort_groups.CourseUserGroup.all():
+        for g in cohort_groups:
             user_list.append({
-                "name": e.user.name,
+                "name": e.user.profile.name,
                 "email": e.user.email,
                 "date_completed": date_completed,
                 "reg_no": g.name
@@ -54,7 +54,7 @@ def export_learner_profiles_with_cohort(course_id, email_address=None):
             'Cohort'
             ])
 
-        for u in credential_list:
+        for u in user_list:
             writer.writerow({
                 u['name'],
                 u['email'],

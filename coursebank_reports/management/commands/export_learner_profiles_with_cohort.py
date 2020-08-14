@@ -35,5 +35,7 @@ class Command(BaseCommand):
             raise CommandError("--course -c arg required ")
         try:
             export_learner_profiles_with_cohort(course_id, email_address=email_address)
+        except Exception as e:
+            raise CommandError("Error in exporting learner profiles with cohort: {}".format(str(e)))
         else:
             self.stdout.write(self.style.SUCCESS("Successfully exported learner profiles with cohort."))
