@@ -1,4 +1,10 @@
+import csv
+from datetime import datetime
+from django.utils import timezone
 import logging
+import unicodecsv
+
+from django.core.mail import send_mail, EmailMessage
 
 from django.http import Http404
 from django.shortcuts import get_object_or_404
@@ -8,7 +14,6 @@ from opaque_keys.edx.keys import CourseKey
 from student.models import CourseEnrollment, UserProfile
 from lms.djangoapps.certificates.api import get_certificate_for_user
 from openedx.core.djangoapps.course_groups.models import CourseUserGroup
-import unicodecsv
 
 LOGGER = logging.getLogger(__name__)
 
