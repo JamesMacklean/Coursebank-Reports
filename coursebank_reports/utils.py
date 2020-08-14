@@ -46,7 +46,7 @@ def export_learner_profiles_with_cohort(course_id, email_address=None):
                 "name": e.user.profile.name,
                 "email": e.user.email,
                 "date_completed": date_completed,
-                "reg_no": g.name
+                "cohort": g.name
             })
 
     file_name = '/home/ubuntu/tempfiles/export_learner_profiles_with_cohort_{}.csv'.format(tnow)
@@ -55,7 +55,7 @@ def export_learner_profiles_with_cohort(course_id, email_address=None):
         writer.writerow([
             'Full Name',
             'Email',
-            'Date of Completion'
+            'Date of Completion',
             'Cohort'
             ])
 
