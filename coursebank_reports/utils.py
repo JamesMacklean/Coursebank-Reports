@@ -36,7 +36,9 @@ def export_learner_profiles_with_cohort(course_id, email_address=None):
         else:
             date_completed = ""
 
-        cohort_groups = e.user.course_groups.all()
+        cohort_groups = e.user.course_groups.filter(
+            course_id=course_key
+        )
 
         for g in cohort_groups:
             user_list.append({
