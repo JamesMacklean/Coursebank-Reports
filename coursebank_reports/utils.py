@@ -57,12 +57,12 @@ def export_learner_profiles_with_cohort(course_id, email_address=None):
             ])
 
         for u in user_list:
-            writer.writerow({
+            writer.writerow([
                 u['name'],
                 u['email'],
                 u['date_completed'],
                 u['cohort']
-                })
+                ])
 
     if email_address:
         email = EmailMessage(
