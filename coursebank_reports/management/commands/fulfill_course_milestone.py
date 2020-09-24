@@ -21,7 +21,7 @@ class Command(BaseCommand):
         )
         parser.add_argument(
             '-u',
-            '--user',
+            '--username',
             type=str,
             help='set user to give milestone',
         )
