@@ -35,7 +35,7 @@ class Command(BaseCommand):
             is_active=True
         )
 
-        if course_id is None
+        if course_id is None:
             raise CommandError("Arguments course_id -c --course is required.")
 
         try:
