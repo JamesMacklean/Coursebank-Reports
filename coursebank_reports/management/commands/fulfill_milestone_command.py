@@ -57,7 +57,7 @@ class Command(BaseCommand):
                 for e in enrollments:
                     cert = get_certificate_for_user(e.user.username, course_key)
                     if cert is not None:
-                        fulfill_course_milestone(course_key, user=user)
+                        fulfill_course_milestone(course_key, user=e.user)
             except Exception as e:
                 raise CommandError("Error in giving milestone: {}".format(str(e)))
             else:
