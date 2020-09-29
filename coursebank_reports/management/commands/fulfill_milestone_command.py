@@ -39,11 +39,6 @@ class Command(BaseCommand):
         except Exception as e:
             raise CommandError("Course does not exist: {}".format(str(e)))
 
-        try:
-            user = User.objects.get(username=username)
-        except User.DoesNotExist:
-            raise CommandError("User does not exist: {}".format(username))
-
         enrollments = CourseEnrollment.objects.filter(
             course_id=course_key,
             is_active=True
