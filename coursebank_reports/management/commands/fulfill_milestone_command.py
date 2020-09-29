@@ -6,7 +6,7 @@ from opaque_keys.edx.keys import CourseKey
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 from django.core.management.base import BaseCommand, CommandError
 
-from common.djangoapps.util.milestones_helpers import fulfill_course_milestone
+from util.milestones_helpers import fulfill_course_milestone
 
 
 class Command(BaseCommand):
