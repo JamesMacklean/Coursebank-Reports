@@ -58,6 +58,6 @@ class Command(BaseCommand):
                     if cert is not None:
                         fulfill_course_milestone(course_key, user=user)
             except Exception as e:
-                raise CommandError("Error in giving milestone.".format(str(e)))
+                raise CommandError("Error in giving milestone: {}".format(str(e)))
             else:
                 self.stdout.write(self.style.SUCCESS("Successfully gave learner milestone."))
