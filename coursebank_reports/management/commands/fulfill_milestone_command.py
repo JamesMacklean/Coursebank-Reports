@@ -30,10 +30,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         course_id = options.get('course', None)
         username = options.get('username', None)
-        enrollments = CourseEnrollment.objects.filter(
-            course_id=course_key,
-            is_active=True
-        )
 
         if course_id is None:
             raise CommandError("Arguments course_id -c --course is required.")
@@ -47,6 +43,11 @@ class Command(BaseCommand):
             user = User.objects.get(username=username)
         except User.DoesNotExist:
             raise CommandError("User does not exist: {}".format(username))
+
+        enrollments = CourseEnrollment.objects.filter(
+            course_id=course_key,
+            is_active=True
+        )
 
         if username is not None:
             try:
