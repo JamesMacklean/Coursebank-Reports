@@ -25,7 +25,7 @@ class Command(BaseCommand):
             '-u',
             '--username',
             type=str,
-            help='set user to give milestone',
+            help='set username to give milestone',
         )
 
     def handle(self, *args, **options):
@@ -40,11 +40,6 @@ class Command(BaseCommand):
         except Exception as e:
             raise CommandError("Course does not exist: {}".format(str(e)))
 
-        enrollments = CourseEnrollment.objects.filter(
-            course_id=course_key,
-            is_active=True
-        )
-
         if username is not None:
             try:
                 fulfill_course_milestone(course_key, user=user)
@@ -53,6 +48,10 @@ class Command(BaseCommand):
             else:
                 self.stdout.write(self.style.SUCCESS("Successfully gave learner milestone."))
         else:
+            enrollments = CourseEnrollment.objects.filter(
+                course_id=course_key,
+                is_active=True
+            )
             try:
                 for e in enrollments:
                     cert = get_certificate_for_user(e.user.username, course_key)
