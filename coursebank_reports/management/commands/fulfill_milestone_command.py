@@ -42,6 +42,7 @@ class Command(BaseCommand):
 
         if username is not None:
             try:
+                user = User.objects.get(username=username)
                 fulfill_course_milestone(course_key, user=user)
             except Exception as e:
                 raise CommandError("Error in giving milestone.".format(str(e)))
