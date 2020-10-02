@@ -279,7 +279,7 @@ def enrollment_list_view(request, course_id, export_csv=False):
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="enrollmentslist.csv"'
         csv_data = (
-            ('Username', 'Email', 'Full Name','Mode', 'Created', 'is_active'),
+            ('username', 'email', 'fullname', 'mode', 'created', 'is_active'),
         )
         for enrollment in queryset:
             tuple = (
