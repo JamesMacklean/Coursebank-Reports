@@ -75,3 +75,47 @@ def export_learner_profiles_with_cohort(course_id, email_address=None):
         )
         email.attach_file(file_name)
         email.send()
+
+def export_learner_profiles(course_id, email_address=None):
+    """"""
+    tnow = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.000Z')
+
+    course_key = CourseKey.from_string(course_id)
+    enrollments = CourseEnrollment.objects.filter(
+        course_id=course_key,
+        is_active=True
+    )
+
+    user_list = []
+    for e in enrollments:
+        user_list.append({
+            "name": e.user.profile.name,
+            "username": e.user.username,
+            "email": e.user.email
+        })
+
+    file_name = '/home/ubuntu/tempfiles/export_learner_profiles_{}.csv'.format(tnow)
+    with open(file_name, mode='w') as csv_file:
+        writer = unicodecsv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL,  encoding='utf-8')
+        writer.writerow([
+            'Full Name',
+            'Username',
+            'Email'
+            ])
+
+        for u in user_list:
+            writer.writerow([
+                u['name'],
+                u['username'],
+                u['email']
+                ])
+
+    if email_address:
+        email = EmailMessage(
+            'Coursebank - Learner Profiles',
+            'Attached file of Learner Profiles (as of {})'.format(tnow),
+            'no-reply-learner-profiles@coursebank.ph',
+            [email_address,],
+        )
+        email.attach_file(file_name)
+        email.send()
