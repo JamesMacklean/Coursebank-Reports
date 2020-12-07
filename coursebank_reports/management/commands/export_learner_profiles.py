@@ -30,9 +30,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         course_id = options.get('course', None)
         email_address = options.get('email', None)
-
-        if course_id is None:
-            raise CommandError("--course -c arg required ")
+        
         try:
             export_learner_profiles(course_id, email_address=email_address)
         except Exception as e:
