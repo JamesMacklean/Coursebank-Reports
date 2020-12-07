@@ -85,13 +85,13 @@ def export_learner_profiles(course_id, email_address=None):
     if course_id is None:
         profiles = User.objects.all()
 
-            for p in profiles:
-                user_list.append({
-                    "name": p.profile.name,
-                    "username": p.username,
-                    "email": p.email,
-                    "created": p.date_joined,
-                })
+        for p in profiles:
+            user_list.append({
+                "name": p.profile.name,
+                "username": p.username,
+                "email": p.email,
+                "created": p.date_joined,
+            })
 
     else:
         course_key = CourseKey.from_string(course_id)
