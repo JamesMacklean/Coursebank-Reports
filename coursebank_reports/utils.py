@@ -82,13 +82,6 @@ def export_learner_profiles(course_id, email_address=None):
 
     user_list = []
 
-    try:
-        export_learner_profiles(course_id, email_address=email_address)
-    except Exception as e:
-        raise CommandError("Error in exporting learner profiles: {}".format(str(e)))
-    else:
-        self.stdout.write(self.style.SUCCESS("Successfully exported learner profiles."))
-
     if course_id is None:
         profiles = User.objects.all()
 
