@@ -80,21 +80,21 @@ def export_learner_profiles(course_id, email_address=None):
     """"""
     tnow = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.000Z')
 
-    course_key = CourseKey.from_string(course_id)
     user_list = []
 
-    if course_key is None:
+    if course_id is None:
         profiles = User.objects.all()
 
-        for p in profiles:
-            user_list.append({
-                "name": p.profile.name,
-                "username": p.username,
-                "email": p.email,
-                "created": p.date_joined,
-            })
+            for p in profiles:
+                user_list.append({
+                    "name": p.profile.name,
+                    "username": p.username,
+                    "email": p.email,
+                    "created": p.date_joined,
+                })
 
     else:
+        course_key = CourseKey.from_string(course_id)
         enrollments = CourseEnrollment.objects.filter(
             course_id=course_key,
             is_active=True
