@@ -82,16 +82,31 @@ def export_learner_profiles(course_id, email_address=None):
 
     user_list = []
 
+    try:
+        export_learner_profiles(course_id, email_address=email_address)
+    except Exception as e:
+        raise CommandError("Error in exporting learner profiles: {}".format(str(e)))
+    else:
+        self.stdout.write(self.style.SUCCESS("Successfully exported learner profiles."))
+
     if course_id is None:
         profiles = User.objects.all()
 
         for p in profiles:
-            user_list.append({
-                "name": p.profile.name,
-                "username": p.username,
-                "email": p.email,
-                "created": p.date_joined,
-            })
+            try:
+                user_list.append({
+                    "name": p.profile.name,
+                    "username": p.username,
+                    "email": p.email,
+                    "created": p.date_joined,
+                })
+            except UserProfile.DoesNotExist:
+                user_list.append({
+                    "name": p.username,
+                    "username": p.username,
+                    "email": p.email,
+                    "created": p.date_joined,
+                })
 
     else:
         course_key = CourseKey.from_string(course_id)
