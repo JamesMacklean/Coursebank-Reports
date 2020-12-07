@@ -81,18 +81,32 @@ def export_learner_profiles(course_id, email_address=None):
     tnow = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.000Z')
 
     course_key = CourseKey.from_string(course_id)
-    enrollments = CourseEnrollment.objects.filter(
-        course_id=course_key,
-        is_active=True
-    )
-
     user_list = []
-    for e in enrollments:
-        user_list.append({
-            "name": e.user.profile.name,
-            "username": e.user.username,
-            "email": e.user.email
-        })
+
+    if course_key is None:
+        profiles = User.objects.all()
+
+        for p in profiles:
+            user_list.append({
+                "name": p.profile.name,
+                "username": p.username,
+                "email": p.email,
+                "created": p.date_joined,
+            })
+
+    else:
+        enrollments = CourseEnrollment.objects.filter(
+            course_id=course_key,
+            is_active=True
+        )
+
+        for e in enrollments:
+            user_list.append({
+                "name": e.user.profile.name,
+                "username": e.user.username,
+                "email": e.user.email,
+                "created": e.user.created,
+            })
 
     file_name = '/home/ubuntu/tempfiles/export_learner_profiles_{}.csv'.format(tnow)
     with open(file_name, mode='w') as csv_file:
@@ -100,14 +114,16 @@ def export_learner_profiles(course_id, email_address=None):
         writer.writerow([
             'Full Name',
             'Username',
-            'Email'
+            'Email',
+            'Created',
             ])
 
         for u in user_list:
             writer.writerow([
                 u['name'],
                 u['username'],
-                u['email']
+                u['email'],
+                u['created'],
                 ])
 
     if email_address:
