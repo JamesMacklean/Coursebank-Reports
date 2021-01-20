@@ -86,6 +86,11 @@ def export_learner_profiles(course_id, email_address=None):
         profiles = User.objects.all()
 
         for p in profiles:
+            cert = get_certificate_for_user(p.username, course_key)
+            if cert is not None and cert['status'] == "downloadable":
+                date_completed = cert['created'].strftime('%Y-%m-%dT%H:%M:%S.000Z')
+            else:
+                date_completed = ""
             try:
                 user_list.append({
                     "name": p.profile.name,
@@ -93,6 +98,7 @@ def export_learner_profiles(course_id, email_address=None):
                     "email": p.email,
                     "created": p.date_joined,
                     "last_login": p.last_login,
+                    "date_completed": date_completed
                 })
             except UserProfile.DoesNotExist:
                 user_list.append({
@@ -101,6 +107,7 @@ def export_learner_profiles(course_id, email_address=None):
                     "email": p.email,
                     "created": p.date_joined,
                     "last_login": p.last_login,
+                    "date_completed": date_completed
                 })
 
     else:
@@ -111,12 +118,19 @@ def export_learner_profiles(course_id, email_address=None):
         )
 
         for e in enrollments:
+            cert = get_certificate_for_user(e.user.username, course_key)
+            if cert is not None and cert['status'] == "downloadable":
+                date_completed = cert['created'].strftime('%Y-%m-%dT%H:%M:%S.000Z')
+            else:
+                date_completed = ""
+
             user_list.append({
                 "name": e.user.profile.name,
                 "username": e.user.username,
                 "email": e.user.email,
                 "created": e.user.date_joined,
                 "last_login": e.user.last_login,
+                "date_completed": date_completed
             })
 
     file_name = '/home/ubuntu/tempfiles/export_learner_profiles_{}.csv'.format(tnow)
@@ -128,6 +142,7 @@ def export_learner_profiles(course_id, email_address=None):
             'Email',
             'Created',
             'Last Login',
+            'Date Completed',
             ])
 
         for u in user_list:
@@ -137,6 +152,7 @@ def export_learner_profiles(course_id, email_address=None):
                 u['email'],
                 u['created'],
                 u['last_login'],
+                u['date_completed']
                 ])
 
     if email_address:
