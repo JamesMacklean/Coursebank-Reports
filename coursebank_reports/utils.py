@@ -86,19 +86,12 @@ def export_learner_profiles(course_id, email_address=None):
         profiles = User.objects.all()
 
         for p in profiles:
-            cert = get_certificate_for_user(p.username, course_key)
-            if cert is not None and cert['status'] == "downloadable":
-                date_completed = cert['created'].strftime('%Y-%m-%dT%H:%M:%S.000Z')
-            else:
-                date_completed = ""
             try:
                 user_list.append({
                     "name": p.profile.name,
                     "username": p.username,
                     "email": p.email,
                     "created": p.date_joined,
-                    "last_login": p.last_login,
-                    "date_completed": date_completed
                 })
             except UserProfile.DoesNotExist:
                 user_list.append({
@@ -106,9 +99,34 @@ def export_learner_profiles(course_id, email_address=None):
                     "username": p.username,
                     "email": p.email,
                     "created": p.date_joined,
-                    "last_login": p.last_login,
-                    "date_completed": date_completed
                 })
+        file_name = '/home/ubuntu/tempfiles/export_learner_profiles_{}.csv'.format(tnow)
+        with open(file_name, mode='w') as csv_file:
+            writer = unicodecsv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL,  encoding='utf-8')
+            writer.writerow([
+                'Full Name',
+                'Username',
+                'Email',
+                'Created'
+                ])
+
+            for u in user_list:
+                writer.writerow([
+                    u['name'],
+                    u['username'],
+                    u['email'],
+                    u['created']
+                    ])
+
+        if email_address:
+            email = EmailMessage(
+                'Coursebank - Learner Profiles',
+                'Attached file of Learner Profiles (as of {})'.format(tnow),
+                'no-reply-learner-profiles@coursebank.ph',
+                [email_address,],
+            )
+            email.attach_file(file_name)
+            email.send()
 
     else:
         course_key = CourseKey.from_string(course_id)
@@ -132,35 +150,34 @@ def export_learner_profiles(course_id, email_address=None):
                 "last_login": e.user.last_login,
                 "date_completed": date_completed
             })
-
-    file_name = '/home/ubuntu/tempfiles/export_learner_profiles_{}.csv'.format(tnow)
-    with open(file_name, mode='w') as csv_file:
-        writer = unicodecsv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL,  encoding='utf-8')
-        writer.writerow([
-            'Full Name',
-            'Username',
-            'Email',
-            'Created',
-            'Last Login',
-            'Date Completed',
-            ])
-
-        for u in user_list:
+        file_name = '/home/ubuntu/tempfiles/export_learner_profiles_{}.csv'.format(tnow)
+        with open(file_name, mode='w') as csv_file:
+            writer = unicodecsv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL,  encoding='utf-8')
             writer.writerow([
-                u['name'],
-                u['username'],
-                u['email'],
-                u['created'],
-                u['last_login'],
-                u['date_completed']
+                'Full Name',
+                'Username',
+                'Email',
+                'Created',
+                'Last Login',
+                'Date Completed',
                 ])
 
-    if email_address:
-        email = EmailMessage(
-            'Coursebank - Learner Profiles',
-            'Attached file of Learner Profiles (as of {})'.format(tnow),
-            'no-reply-learner-profiles@coursebank.ph',
-            [email_address,],
-        )
-        email.attach_file(file_name)
-        email.send()
+            for u in user_list:
+                writer.writerow([
+                    u['name'],
+                    u['username'],
+                    u['email'],
+                    u['created'],
+                    u['last_login'],
+                    u['date_completed']
+                    ])
+
+        if email_address:
+            email = EmailMessage(
+                'Coursebank - Learner Profiles',
+                'Attached file of Learner Profiles (as of {})'.format(tnow),
+                'no-reply-learner-profiles@coursebank.ph',
+                [email_address,],
+            )
+            email.attach_file(file_name)
+            email.send()
