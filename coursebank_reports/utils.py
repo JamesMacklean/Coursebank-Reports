@@ -92,6 +92,7 @@ def export_learner_profiles(course_id, email_address=None):
                     "username": p.username,
                     "email": p.email,
                     "created": p.date_joined,
+                    "last_login": p.last_login,
                 })
             except UserProfile.DoesNotExist:
                 user_list.append({
@@ -99,6 +100,7 @@ def export_learner_profiles(course_id, email_address=None):
                     "username": p.username,
                     "email": p.email,
                     "created": p.date_joined,
+                    "last_login": p.last_login,
                 })
         file_name = '/home/ubuntu/tempfiles/export_learner_profiles_{}.csv'.format(tnow)
         with open(file_name, mode='w') as csv_file:
@@ -107,7 +109,8 @@ def export_learner_profiles(course_id, email_address=None):
                 'Full Name',
                 'Username',
                 'Email',
-                'Created'
+                'Created',
+                'Last Login'
                 ])
 
             for u in user_list:
@@ -115,7 +118,8 @@ def export_learner_profiles(course_id, email_address=None):
                     u['name'],
                     u['username'],
                     u['email'],
-                    u['created']
+                    u['created'],
+                    u['last_login'],
                     ])
 
         if email_address:
