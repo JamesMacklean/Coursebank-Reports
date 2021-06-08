@@ -15,6 +15,12 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
+            '-a',
+            '--isactive',
+            type=str,
+            help='set filter for active users',
+        )
+        parser.add_argument(
             '-e',
             '--email',
             type=str,
@@ -30,9 +36,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         course_id = options.get('course', None)
         email_address = options.get('email', None)
-        
+        active = options.get('isactive',None)
+
         try:
-            export_learner_profiles(course_id, email_address=email_address)
+            export_learner_profiles(active, course_id, email_address=email_address)
         except Exception as e:
             raise CommandError("Error in exporting learner profiles: {}".format(str(e)))
         else:
