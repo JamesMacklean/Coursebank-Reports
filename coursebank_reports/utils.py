@@ -76,14 +76,17 @@ def export_learner_profiles_with_cohort(course_id, email_address=None):
         email.attach_file(file_name)
         email.send()
 
-def export_learner_profiles(course_id, email_address=None):
+def export_learner_profiles(active, course_id, email_address=None):
     """"""
     tnow = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.000Z')
 
     user_list = []
 
     if course_id is None:
-        profiles = User.objects.all()
+        if active == "yes":
+          profiles = User.objects.filter(is_active=True)
+        else:
+          profiles = User.objects.all()
 
         for p in profiles:
             try:
