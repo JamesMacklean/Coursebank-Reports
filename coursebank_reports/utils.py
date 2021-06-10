@@ -153,7 +153,7 @@ def export_learner_profiles(active, course_id, email_address=None):
                 "name": e.user.profile.name,
                 "username": e.user.username,
                 "email": e.user.email,
-                "created": e.user.date_joined,
+                "created": e.created,
                 "last_login": e.user.last_login,
                 "date_completed": date_completed
             })
