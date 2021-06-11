@@ -209,9 +209,9 @@ def export_learner_demographics(active, course_id, email_address=None):
           profiles = User.objects.all()
 
         for p in profiles:
-            person_gender = UserProfile.objects.raw("Select gender from auth_userprofile where user_id = %s", [p.id])[0]
-            person_age = UserProfile.objects.raw("Select year_of_birth from auth_userprofile where user_id = %s", [p.id])[0]
-            person_location = UserProfile.objects.raw("Select country from auth_userprofile where user_id = %s", [p.id])[0]
+            person_gender = UserProfile.objects.raw("Select id, gender from auth_userprofile where user_id = %s", [p.id])[0]
+            person_age = UserProfile.objects.raw("Select id, year_of_birth from auth_userprofile where user_id = %s", [p.id])[0]
+            person_location = UserProfile.objects.raw("Select id, country from auth_userprofile where user_id = %s", [p.id])[0]
             try:
                 user_list.append({
                     "studentid": p.id,
@@ -280,9 +280,9 @@ def export_learner_demographics(active, course_id, email_address=None):
             else:
                 date_completed = ""
 
-            person_gender = UserProfile.objects.raw("Select gender from auth_userprofile where user_id = %s", [p.id])[0]
-            person_age = UserProfile.objects.raw("Select year_of_birth from auth_userprofile where user_id = %s", [p.id])[0]
-            person_location = UserProfile.objects.raw("Select country from auth_userprofile where user_id = %s", [p.id])[0]
+            person_gender = UserProfile.objects.raw("Select id, gender from auth_userprofile where user_id = %s", [p.id])[0]
+            person_age = UserProfile.objects.raw("Select id, year_of_birth from auth_userprofile where user_id = %s", [p.id])[0]
+            person_location = UserProfile.objects.raw("Select id, country from auth_userprofile where user_id = %s", [p.id])[0]
 
             user_list.append({
                 "name": e.user.profile.name,
