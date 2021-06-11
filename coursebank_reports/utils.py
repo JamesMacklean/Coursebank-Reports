@@ -215,9 +215,9 @@ def export_learner_demographics(active, course_id, email_address=None):
                     "name": p.profile.name,
                     "username": p.username,
                     "email": p.email,
-                    "gender": UserProfile.objects.raw("Select gender from auth_userprofile where user_id = %s LIMIT 1", [p.id])[0],
-                    "birthyear": UserProfile.objects.raw("Select year_of_birth from auth_userprofile where user_id = %s LIMIT 1", [p.id])[0],
-                    "location": UserProfile.objects.raw("Select country from auth_userprofile where user_id = %s LIMIT 1", [p.id])[0],
+                    "gender": UserProfile.objects.raw("Select 1 id, gender from auth_userprofile where user_id = %s LIMIT 1", [p.id])[0],
+                    "birthyear": UserProfile.objects.raw("Select 1 id, year_of_birth from auth_userprofile where user_id = %s LIMIT 1", [p.id])[0],
+                    "location": UserProfile.objects.raw("Select 1 id, country from auth_userprofile where user_id = %s LIMIT 1", [p.id])[0],
                 })
             except UserProfile.DoesNotExist:
                 user_list.append({
@@ -225,9 +225,9 @@ def export_learner_demographics(active, course_id, email_address=None):
                     "name": p.username,
                     "username": p.username,
                     "email": p.email,
-                    "gender": UserProfile.objects.raw("Select gender from auth_userprofile where user_id = %s LIMIT 1", [p.id])[0],
-                    "birthyear": UserProfile.objects.raw("Select year_of_birth from auth_userprofile where user_id = %s LIMIT 1", [p.id])[0],
-                    "location": UserProfile.objects.raw("Select country from auth_userprofile where user_id = %s LIMIT 1", [p.id])[0],
+                    "gender": UserProfile.objects.raw("Select 1 id, gender from auth_userprofile where user_id = %s LIMIT 1", [p.id])[0],
+                    "birthyear": UserProfile.objects.raw("Select 1 id, year_of_birth from auth_userprofile where user_id = %s LIMIT 1", [p.id])[0],
+                    "location": UserProfile.objects.raw("Select 1 id, country from auth_userprofile where user_id = %s LIMIT 1", [p.id])[0],
                 })
         file_name = '/home/ubuntu/tempfiles/export_learner_profiles_{}.csv'.format(tnow)
         with open(file_name, mode='w') as csv_file:
@@ -281,9 +281,9 @@ def export_learner_demographics(active, course_id, email_address=None):
                 "name": e.user.profile.name,
                 "username": e.user.username,
                 "email": e.user.email,
-                "gender": UserProfile.objects.raw("Select gender from auth_userprofile where user_id = %s LIMIT 1", [e.user.id])[0],
-                "birthyear": UserProfile.objects.raw("Select year_of_birth from auth_userprofile where user_id = %s LIMIT 1", [e.user.id])[0],
-                "location": UserProfile.objects.raw("Select country from auth_userprofile where user_id = %s LIMIT 1", [e.user.id])[0],
+                "gender": UserProfile.objects.raw("Select 1 id, gender from auth_userprofile where user_id = %s LIMIT 1", [e.user.id])[0],
+                "birthyear": UserProfile.objects.raw("Select 1 id, year_of_birth from auth_userprofile where user_id = %s LIMIT 1", [e.user.id])[0],
+                "location": UserProfile.objects.raw("Select 1 id, country from auth_userprofile where user_id = %s LIMIT 1", [e.user.id])[0],
                 "created": e.created,
             })
         file_name = '/home/ubuntu/tempfiles/export_learner_profiles_{}.csv'.format(tnow)
