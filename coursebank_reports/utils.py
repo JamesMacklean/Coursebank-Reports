@@ -4,6 +4,7 @@ from django.utils import timezone
 import logging
 import unicodecsv
 
+from django.db import connection
 from django.core.mail import send_mail, EmailMessage
 
 from django.http import Http404
@@ -209,9 +210,16 @@ def export_learner_demographics(active, course_id, email_address=None):
           profiles = User.objects.all()
 
         for p in profiles:
-            person_gender = UserProfile.objects.raw("Select id, gender from auth_userprofile where user_id = %s", [p.id])[0]
-            person_age = UserProfile.objects.raw("Select id, year_of_birth from auth_userprofile where user_id = %s", [p.id])[0]
-            person_location = UserProfile.objects.raw("Select id, country from auth_userprofile where user_id = %s", [p.id])[0]
+            with connection.cursor() as cursor:
+               cursor.execute("Select gender from auth_userprofile where user_id = %s", [p.id])
+               person_gender = cursor.fetchone()
+            with connection.cursor() as cursor:
+               cursor.execute("Select year_of_birth from auth_userprofile where user_id = %s", [p.id])
+               person_age = cursor.fetchone()
+            with connection.cursor() as cursor:
+               cursor.execute("Select location from auth_userprofile where user_id = %s", [p.id])
+               person_location = cursor.fetchone()
+
             try:
                 user_list.append({
                     "studentid": p.id,
@@ -280,9 +288,15 @@ def export_learner_demographics(active, course_id, email_address=None):
             else:
                 date_completed = ""
 
-            person_gender = UserProfile.objects.raw("Select id, gender from auth_userprofile where user_id = %s", [p.id])[0]
-            person_age = UserProfile.objects.raw("Select id, year_of_birth from auth_userprofile where user_id = %s", [p.id])[0]
-            person_location = UserProfile.objects.raw("Select id, country from auth_userprofile where user_id = %s", [p.id])[0]
+            with connection.cursor() as cursor:
+               cursor.execute("Select gender from auth_userprofile where user_id = %s", [p.id])
+               person_gender = cursor.fetchone()
+            with connection.cursor() as cursor:
+               cursor.execute("Select year_of_birth from auth_userprofile where user_id = %s", [p.id])
+               person_age = cursor.fetchone()
+            with connection.cursor() as cursor:
+               cursor.execute("Select location from auth_userprofile where user_id = %s", [p.id])
+               person_location = cursor.fetchone()
 
             user_list.append({
                 "name": e.user.profile.name,
