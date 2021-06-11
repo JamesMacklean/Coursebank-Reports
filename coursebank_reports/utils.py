@@ -244,7 +244,7 @@ def export_learner_demographics(active, course_id, email_address=None):
 
             for u in user_list:
                 writer.writerow([
-                    u['studentid']
+                    u['studentid'],
                     u['name'],
                     u['username'],
                     u['email'],
@@ -302,7 +302,7 @@ def export_learner_demographics(active, course_id, email_address=None):
 
             for u in user_list:
                 writer.writerow([
-                    u['studentid']
+                    u['studentid'],
                     u['name'],
                     u['username'],
                     u['email'],
