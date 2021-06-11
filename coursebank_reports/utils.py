@@ -299,6 +299,7 @@ def export_learner_demographics(active, course_id, email_address=None):
                person_location = cursor.fetchone()
 
             user_list.append({
+                "studentid": e.user.id,
                 "name": e.user.profile.name,
                 "username": e.user.username,
                 "email": e.user.email,
