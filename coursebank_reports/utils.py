@@ -289,13 +289,13 @@ def export_learner_demographics(active, course_id, email_address=None):
                 date_completed = ""
 
             with connection.cursor() as cursor:
-               cursor.execute("Select gender from auth_userprofile where user_id = %s", [p.id])
+               cursor.execute("Select gender from auth_userprofile where user_id = %s", [e.user.id])
                person_gender = cursor.fetchone()
             with connection.cursor() as cursor:
-               cursor.execute("Select year_of_birth from auth_userprofile where user_id = %s", [p.id])
+               cursor.execute("Select year_of_birth from auth_userprofile where user_id = %s", [e.user.id])
                person_age = cursor.fetchone()
             with connection.cursor() as cursor:
-               cursor.execute("Select country from auth_userprofile where user_id = %s", [p.id])
+               cursor.execute("Select country from auth_userprofile where user_id = %s", [e.user.id])
                person_location = cursor.fetchone()
 
             user_list.append({
