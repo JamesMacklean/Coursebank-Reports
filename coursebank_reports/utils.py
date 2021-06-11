@@ -315,7 +315,7 @@ def export_learner_demographics(active, course_id, email_address=None):
         if email_address:
             email = EmailMessage(
                 'Coursebank - Learner Profiles',
-                'Attached file of Learner Profiles (as of {})'.format(tnow),
+                'Attached file of Learner Demographics (as of {})'.format(tnow),
                 'no-reply-learner-profiles@coursebank.ph',
                 [email_address,],
             )
