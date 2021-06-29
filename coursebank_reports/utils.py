@@ -347,6 +347,7 @@ def export_learner_demographics(active, course_id, email_address=None):
 def export_learner_pga(course_id, email_address=None):
     """"""
     tnow = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.000Z')
+    user_list = []
 
     studentitems = []
     anonymous_user = []
