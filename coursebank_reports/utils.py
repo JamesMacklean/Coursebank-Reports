@@ -429,7 +429,7 @@ def export_learner_pga(course_id, email_address=None):
                    user_list.append({
                         "answer": ans,
                 })
-            for sub in subm_date:
+            for sub in submission_date:
                    user_list.append({
                         "subm_date": sub,
                 })
