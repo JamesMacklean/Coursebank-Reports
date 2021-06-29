@@ -432,13 +432,13 @@ def export_learner_pga(course_id, email_address=None):
                   ])
 
                    for u in user_list:
-                   writer.writerow([
-                        u['fullname'],
-                        u['username'],
-                        u['email'],
-                        u['attempt'],
-                        u['answer'],
-                        u['subm_date'],
+                        writer.writerow([
+                           u['fullname'],
+                           u['username'],
+                           u['email'],
+                           u['attempt'],
+                           u['answer'],
+                           u['subm_date'],
                     ])
 
             if email_address:
