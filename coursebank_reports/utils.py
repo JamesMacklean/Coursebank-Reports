@@ -15,12 +15,6 @@ from opaque_keys.edx.keys import CourseKey
 from student.models import CourseEnrollment, UserProfile
 from lms.djangoapps.certificates.api import get_certificate_for_user
 from openedx.core.djangoapps.course_groups.models import CourseUserGroup
-from openedx.features.sparta-pages.sparta_pages.models import (
-    Pathway, SpartaCourse, SpartaProfile, ExtendedSpartaProfile,
-    EducationProfile, EmploymentProfile, TrainingProfile,
-    PathwayApplication, Event,
-    SpartaCoupon, StudentCouponRecord
-)
 
 LOGGER = logging.getLogger(__name__)
 
