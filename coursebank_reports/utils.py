@@ -409,16 +409,30 @@ def export_learner_pga(course_id, email_address=None):
                    student_email.append(result2)
                    student_name.append(result3)
 
-            for item in item_id:
+            for name in student_name:
                    user_list.append({
-                        "fullname": student_name[ctr],
-                        "username": student_username[ctr],
-                        "email": student_email[ctr],
-                        "attempt": attempt[ctr],
-                        "answer": answer[ctr],
-                        "subm_date": submission_date[ctr],
+                        "fullname": name,
                 })
-                   ctr += 1
+            for name in student_username:
+                   user_list.append({
+                        "username": name,
+                })
+            for email in student_email:
+                   user_list.append({
+                        "email": email,
+                })
+            for att in attempt:
+                   user_list.append({
+                        "attempt": att,
+                })
+            for ans in answer:
+                   user_list.append({
+                        "answer": ans,
+                })
+            for sub in subm_date:
+                   user_list.append({
+                        "subm_date": sub,
+                })
 
             file_name = '/home/ubuntu/tempfiles/export_learner_profiles_{}.csv'.format(tnow)
             with open(file_name, mode='w') as csv_file:
