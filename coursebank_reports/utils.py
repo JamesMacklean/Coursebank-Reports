@@ -377,17 +377,15 @@ def export_learner_pga(course_id, email_address=None):
             for item in item_id:
                     with connection.cursor() as cursor:
                         cursor.execute("Select uuid, attempt_number, submitted_at, raw_answer from submissions_submission where student_item_id = %s", [item])
-                        studentitems = cursor.fetchall()
-
-            for items in studentitems:
-                   result1 = items[0]
-                   result2 = items[1]
-                   result3 = items[2]
-                   result4 = items[3]
-                   item_uuid.append(result1)
-                   attempt.append(result2)
-                   submission_date.append(result3)
-                   answer.append(result4)
+                        studentitems = cursor.fetchone()
+                        result1 = studentitems[0]
+                        result2 = studentitems[1]
+                        result3 = studentitems[2]
+                        result4 = studentitems[3]
+                        item_uuid.append(result1)
+                        attempt.append(result2)
+                        submission_date.append(result3)
+                        answer.append(result4)
 
             for user in anonymous_user:
                    with connection.cursor() as cursor:
@@ -399,40 +397,24 @@ def export_learner_pga(course_id, email_address=None):
             for id in student_id:
                    with connection.cursor() as cursor:
                         cursor.execute("Select auth_user.username, auth_user.email, auth_userprofile.name from auth_user INNER JOIN auth_userprofile ON auth_user.id=auth_userprofile.user_id where auth_user.id = %s", [id])
-                        students = cursor.fetchall()
+                        students = cursor.fetchone()
+                        result1 = students[0]
+                        result2 = students[1]
+                        result3 = students[2]
+                        student_username.append(result1)
+                        student_email.append(result2)
+                        student_name.append(result3)
 
-            for student in students:
-                   result1 = student[0]
-                   result2 = student[1]
-                   result3 = student[2]
-                   student_username.append(result1)
-                   student_email.append(result2)
-                   student_name.append(result3)
-
-            for name in student_name:
+            for item in item_id:
                    user_list.append({
-                        "fullname": name,
+                        "fullname": student_name[ctr],
+                        "username": student_username[ctr],
+                        "email": student_email[ctr],
+                        "attempt": attempt[ctr],
+                        "answer": answer[ctr],
+                        "subm_date": submission_date[ctr],
                 })
-            for name in student_username:
-                   user_list.append({
-                        "username": name,
-                })
-            for email in student_email:
-                   user_list.append({
-                        "email": email,
-                })
-            for att in attempt:
-                   user_list.append({
-                        "attempt": att,
-                })
-            for ans in answer:
-                   user_list.append({
-                        "answer": ans,
-                })
-            for sub in submission_date:
-                   user_list.append({
-                        "subm_date": sub,
-                })
+                   ctr += 1
 
             file_name = '/home/ubuntu/tempfiles/export_learner_profiles_{}.csv'.format(tnow)
             with open(file_name, mode='w') as csv_file:
