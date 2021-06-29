@@ -15,6 +15,12 @@ from opaque_keys.edx.keys import CourseKey
 from student.models import CourseEnrollment, UserProfile
 from lms.djangoapps.certificates.api import get_certificate_for_user
 from openedx.core.djangoapps.course_groups.models import CourseUserGroup
+from openedx.features.sparta-pages.sparta_pages.models import (
+    Pathway, SpartaCourse, SpartaProfile, ExtendedSpartaProfile,
+    EducationProfile, EmploymentProfile, TrainingProfile,
+    PathwayApplication, Event,
+    SpartaCoupon, StudentCouponRecord
+)
 
 LOGGER = logging.getLogger(__name__)
 
@@ -282,7 +288,7 @@ def export_learner_demographics(active, course_id, email_address=None):
         )
 
         for e in enrollments:
-            cert = get_certificate_for_user(e.user.username, course_key)
+            cert = get_certificate_for_user(e.user.username, course_key)0   m
             if cert is not None and cert['status'] == "downloadable":
                 date_completed = cert['created'].strftime('%Y-%m-%dT%H:%M:%S.000Z')
             else:
@@ -343,3 +349,110 @@ def export_learner_demographics(active, course_id, email_address=None):
             )
             email.attach_file(file_name)
             email.send()
+
+def export_learner_pga(course_id, email_address=None):
+    """"""
+    tnow = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.000Z')
+
+    studentitems = []
+    anonymous_user = []
+    item_id = []
+    answer = []
+    submission_date = []
+    attempt = []
+    item_uuid = []
+    student_name = []
+    student_id = []
+    student_email = []
+    student_username = []
+    ctr = 0
+
+    if course_id:
+
+            with connection.cursor() as cursor:
+                   cursor.execute("Select id, student_id from submissions_studentitem where course_id = %s", [course_id])
+                   studentitems = cursor.fetchall()
+
+            for items in studentitems:
+                   result1 = items[0]
+                   result2 = items[1]
+                   item_id.append(result1)
+                   anonymous_user.append(result2)
+
+            for item in item_id:
+                    with connection.cursor() as cursor:
+                        cursor.execute("Select uuid, attempt_number, submitted_at, raw_answer from submissions_submission where student_item_id = %s", [item])
+                        studentitems = cursor.fetchall()
+
+            for items in studentitems:
+                   result1 = items[0]
+                   result2 = items[1]
+                   result3 = items[2]
+                   result4 = items[3]
+                   item_uuid.append(result1)
+                   attempt.append(result2)
+                   submission_date.append(result3)
+                   answer.append(result4)
+
+            for user in anonymous_user:
+                   with connection.cursor() as cursor:
+                        cursor.execute("Select user_id from student_anonymoususerid where anonymous_user_id = %s", [user])
+                        studentid = cursor.fetchone()
+                        result = studentid[0]
+                        student_id.append(result)
+
+            for id in student_id:
+                   with connection.cursor() as cursor:
+                        cursor.execute("Select auth_user.username, auth_user.email, auth_userprofile.name from auth_user INNER JOIN auth_userprofile ON auth_user.id=auth_userprofile.user_id where auth_user.id = %s", [id])
+                        students = cursor.fetchall()
+
+            for student in students:
+                   result1 = student[0]
+                   result2 = student[1]
+                   result3 = student[2]
+                   student_username.append(result1)
+                   student_email.append(result2)
+                   student_name.append(result3)
+
+            for item in item_id:
+                   user_list.append({
+                        "fullname": student_name[ctr],
+                        "username": student_username[ctr],
+                        "email": student_email[ctr],
+                        "attempt": attempt[ctr],
+                        "answer": answer[ctr],
+                        "subm_date": submission_date[ctr],
+                })
+                   ctr += 1
+
+            file_name = '/home/ubuntu/tempfiles/export_learner_profiles_{}.csv'.format(tnow)
+            with open(file_name, mode='w') as csv_file:
+                   writer = unicodecsv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL,  encoding='utf-8')
+                   writer.writerow([
+                        'Full Name',
+                        'Username',
+                        'Email',
+                        'Attempts',
+                        'Answer',
+                        'Submission Date',
+                  ])
+
+                   for u in user_list:
+                   writer.writerow([
+                        u['fullname'],
+                        u['username'],
+                        u['email'],
+                        u['attempt'],
+                        u['answer'],
+                        u['subm_date'],
+                    ])
+
+            if email_address:
+                   email = EmailMessage(
+                        'Coursebank - Learner Profiles',
+                        'Attached file of Learner Profiles (as of {})'.format(tnow),
+                        'no-reply-learner-profiles@coursebank.ph',
+                        [email_address,],
+                   )
+                   email.attach_file(file_name)
+                   email.send()
