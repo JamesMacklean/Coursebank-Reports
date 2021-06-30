@@ -351,41 +351,56 @@ def export_learner_pga(course_id, email_address=None):
 
     if course_id:
             with connection.cursor() as cursor:
-                   cursor.execute("Select id, student_id from submissions_studentitem where course_id = %s", [course_id])
+                   cursor.execute("Select id from submissions_studentitem where course_id = %s", [course_id])
                    studentitems = cursor.fetchall()
 
             for items in studentitems:
-                   result1 = items[0]
-                   result2 = items[1]
-                   item_id = result1
-                   anonymous_user_id = result2
+                   item_id = items[0]
 
                    with connection.cursor() as cursor:
-                        cursor.execute("Select uuid, attempt_number, submitted_at, raw_answer from submissions_submission where student_item_id = %s", [item_id])
-                        studentitems = cursor.fetchone()
-                        result1 = studentitems[0]
-                        result2 = studentitems[1]
-                        result3 = studentitems[2]
-                        result4 = studentitems[3]
-                        item_uuid = result1
-                        attempt = result2
-                        submission_date = result3
-                        answer = result4
+                        cursor.execute("Select student_id from submissions_studentitem where id = %s AND course_id = %s", [item_id, course_id])
+                        anon_user = cursor.fetchone()
+                        anonymous_user_id = anon_user[0]
+
+                   with connection.cursor() as cursor:
+                        cursor.execute("Select uuid from submissions_submission where student_item_id = %s", [item_id])
+                        itemid = cursor.fetchone()
+                        item_uuid = itemid[0]
+
+                   with connection.cursor() as cursor:
+                        cursor.execute("Select attempt_number from submissions_submission where student_item_id = %s", [item_id])
+                        attempt_num = cursor.fetchone()
+                        attempt = attempt_num[0]
+
+                   with connection.cursor() as cursor:
+                        cursor.execute("Select submitted_at from submissions_submission where student_item_id = %s", [item_id])
+                        subm = cursor.fetchone()
+                        submission_date = subm[0]
+
+                   with connection.cursor() as cursor:
+                        cursor.execute("Select raw_answer from submissions_submission where student_item_id = %s", [item_id])
+                        ans = cursor.fetchone()
+                        answer = ans[0]
 
                    with connection.cursor() as cursor:
                         cursor.execute("Select user_id from student_anonymoususerid where anonymous_user_id = %s", [anonymous_user_id])
                         studentid = cursor.fetchone()
-                        student_id = studentid
+                        student_id = studentid[0]
 
                    with connection.cursor() as cursor:
-                        cursor.execute("Select auth_user.username, auth_user.email, auth_userprofile.name from auth_user INNER JOIN auth_userprofile ON auth_user.id=auth_userprofile.user_id where auth_user.id = %s", [student_id])
-                        students = cursor.fetchone()
-                        result1 = students[0]
-                        result2 = students[1]
-                        result3 = students[2]
-                        student_username = result1
-                        student_email = result2
-                        student_name = result3
+                        cursor.execute("Select username from auth_user where id = %s", [student_id])
+                        student_user = cursor.fetchone()
+                        student_username = student_user[0]
+
+                   with connection.cursor() as cursor:
+                        cursor.execute("Select email from auth_user where id = %s", [student_id])
+                        studentemail = cursor.fetchone()
+                        student_email = studentemail[0]
+
+                   with connection.cursor() as cursor:
+                        cursor.execute("Select name from auth_userprofile where user_id = %s", [student_id])
+                        studentname = cursor.fetchone()
+                        student_name = studentname[0]
 
                    user_list.append({
                         "fullname": student_name,
