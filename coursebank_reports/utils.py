@@ -371,7 +371,7 @@ def export_learner_pga(course_id, email_address=None):
                            itemid = cursor.fetchone()
                            item_uuid = itemid[0]
 
-                       with connection.cursor() as cursor:
+                       """with connection.cursor() as cursor:
                            cursor.execute("Select attempt_number from submissions_submission where student_item_id = %s", [item_id])
                            attempt_num = cursor.fetchone()
                            attempt = attempt_num[0]
@@ -384,7 +384,7 @@ def export_learner_pga(course_id, email_address=None):
                        with connection.cursor() as cursor:
                            cursor.execute("Select raw_answer from submissions_submission where student_item_id = %s", [item_id])
                            ans = cursor.fetchone()
-                           answer = ans[0]
+                           answer = ans[0]"""
 
                            user_list.append({
                                     "fullname": student_name,
