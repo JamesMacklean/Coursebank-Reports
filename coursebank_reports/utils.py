@@ -348,17 +348,18 @@ def export_learner_pga(course_id, email_address=None):
     """"""
     tnow = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.000Z')
     user_list = []
+    courseid = unicode(course_id)
 
-    if course_id is not None:
+    if courseid:
             with connection.cursor() as cursor:
-                   cursor.execute("Select id from submissions_studentitem where course_id = %s", [course_id])
+                   cursor.execute("Select id from submissions_studentitem where course_id = %s", [courseid])
                    studentitems = cursor.fetchall()
 
             for items in studentitems:
                    item_id = items[0]
 
                    with connection.cursor() as cursor:
-                        cursor.execute("Select student_id from submissions_studentitem where id = %s AND course_id = %s", [item_id, course_id])
+                        cursor.execute("Select student_id from submissions_studentitem where id = %s AND course_id = %s", [item_id, courseid])
                         anon_user = cursor.fetchone()
                         anonymous_user_id = anon_user[0]
 
