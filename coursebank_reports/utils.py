@@ -410,7 +410,7 @@ def export_learner_pga(course_id, email_address=None):
                         studentname = cursor.fetchone()
                         student_name = studentname[0]"""
 
-                   user_list.append({
+            user_list.append({
                         "fullname": student_name,
                         "username": student_username,
                         "email": student_email,
