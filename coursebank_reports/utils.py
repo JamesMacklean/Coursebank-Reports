@@ -370,29 +370,79 @@ def export_learner_pga(course_id, email_address=None):
                            cursor.execute("Select uuid from submissions_submission where student_item_id = %s", [item_id])
                            itemid = cursor.fetchone()
                            if itemid is None:
-                               item_uuid = "No"
+                               item_uuid = "N/A"
                            else:
                                item_uuid = itemid[0]
 
-                       """with connection.cursor() as cursor:
+                       with connection.cursor() as cursor:
                            cursor.execute("Select attempt_number from submissions_submission where student_item_id = %s", [item_id])
                            attempt_num = cursor.fetchone()
-                           attempt = attempt_num[0]
+                           if attempt_num is None:
+                               attempt = "N/A"
+                           else:
+                               attempt = attempt_num[0]
 
                        with connection.cursor() as cursor:
                            cursor.execute("Select submitted_at from submissions_submission where student_item_id = %s", [item_id])
                            subm = cursor.fetchone()
-                           submission_date = subm[0]
+                           if subm is None:
+                               submission_date = "N/A"
+                           else:
+                               submission_date = subm[0]
 
                        with connection.cursor() as cursor:
                            cursor.execute("Select raw_answer from submissions_submission where student_item_id = %s", [item_id])
                            ans = cursor.fetchone()
-                           answer = ans[0]"""
+                           if ans is None:
+                               answer = "N/A"
+                           else:
+                               answer = ans[0]
+
+                        with connection.cursor() as cursor:
+                           cursor.execute("Select student_id from submissions_studentitem where id = %s AND course_id = %s", [item_id, courseid])
+                           anon_user = cursor.fetchone()
+                           if anon_user is None:
+                               anonymous_user_id = "N/A"
+                           else:
+                               anonymous_user_id = anon_user[0]
+
+                        with connection.cursor() as cursor:
+                           cursor.execute("Select user_id from student_anonymoususerid where anonymous_user_id = %s", [anonymous_user_id])
+                           studentid = cursor.fetchone()
+                           if studentid is None:
+                               student_id = "N/A"
+                           else:
+                               student_id = studentid[0]
+
+                        with connection.cursor() as cursor:
+                           cursor.execute("Select username from auth_user where id = %s", [student_id])
+                           student_user = cursor.fetchone()
+                           if student_user is None:
+                               student_username = "N/A"
+                           else:
+                               student_username = student_user[0]
+
+                        with connection.cursor() as cursor:
+                           cursor.execute("Select email from auth_user where id = %s", [student_id])
+                           studentemail = cursor.fetchone()
+                           if studentemail is None:
+                               student_email = "N/A"
+                           else:
+                               student_email = studentemail[0]
+
+                        with connection.cursor() as cursor:
+                           cursor.execute("Select name from auth_userprofile where user_id = %s", [student_id])
+                           studentname = cursor.fetchone()
+                           if studentname is None:
+                               student_name = "N/A"
+                           else:
+                               student_name = studentname[0]
 
                        user_list.append({
                            "fullname": student_name,
                            "username": student_username,
                            "email": student_email,
+                           "subm_uuid": item_uuid,
                            "attempt": attempt,
                            "answer": answer,
                            "subm_date": submission_date,
@@ -406,6 +456,7 @@ def export_learner_pga(course_id, email_address=None):
                         'Full Name',
                         'Username',
                         'Email',
+                        'Submission UUID',
                         'Attempts',
                         'Answer',
                         'Submission Date',
@@ -416,6 +467,7 @@ def export_learner_pga(course_id, email_address=None):
                            u['fullname'],
                            u['username'],
                            u['email'],
+                           u['subm_uuid'],
                            u['attempt'],
                            u['answer'],
                            u['subm_date'],
