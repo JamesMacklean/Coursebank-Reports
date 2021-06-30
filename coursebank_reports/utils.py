@@ -358,11 +358,11 @@ def export_learner_pga(course_id, email_address=None):
     submission_date = "date"
 
     if courseid:
-            """with connection.cursor() as cursor:
+            with connection.cursor() as cursor:
                    cursor.execute("Select id from submissions_studentitem where course_id = %s", [courseid])
                    studentitems = cursor.fetchall()
 
-            for items in studentitems:
+            """for items in studentitems:
                    item_id = items[0]
 
                    with connection.cursor() as cursor:
