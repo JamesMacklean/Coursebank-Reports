@@ -386,7 +386,7 @@ def export_learner_pga(course_id, email_address=None):
                            ans = cursor.fetchone()
                            answer = ans[0]
 
-                       """with connection.cursor() as cursor:
+                    """with connection.cursor() as cursor:
                            cursor.execute("Select student_id from submissions_studentitem where id = %s AND course_id = %s", [item_id, courseid])
                            anon_user = cursor.fetchone()
                            anonymous_user_id = anon_user[0]
