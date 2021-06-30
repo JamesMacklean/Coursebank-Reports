@@ -414,7 +414,7 @@ def export_learner_pga(course_id, email_address=None):
                            else:
                                student_id = studentid[0]
 
-                        with connection.cursor() as cursor:
+                       with connection.cursor() as cursor:
                            cursor.execute("Select username from auth_user where id = %s", [student_id])
                            student_user = cursor.fetchone()
                            if student_user is None:
@@ -422,7 +422,7 @@ def export_learner_pga(course_id, email_address=None):
                            else:
                                student_username = student_user[0]
 
-                        with connection.cursor() as cursor:
+                       with connection.cursor() as cursor:
                            cursor.execute("Select email from auth_user where id = %s", [student_id])
                            studentemail = cursor.fetchone()
                            if studentemail is None:
@@ -430,7 +430,7 @@ def export_learner_pga(course_id, email_address=None):
                            else:
                                student_email = studentemail[0]
 
-                        with connection.cursor() as cursor:
+                       with connection.cursor() as cursor:
                            cursor.execute("Select name from auth_userprofile where user_id = %s", [student_id])
                            studentname = cursor.fetchone()
                            if studentname is None:
