@@ -406,7 +406,7 @@ def export_learner_pga(course_id, email_address=None):
                            else:
                                anonymous_user_id = anon_user[0]
 
-                        with connection.cursor() as cursor:
+                       with connection.cursor() as cursor:
                            cursor.execute("Select user_id from student_anonymoususerid where anonymous_user_id = %s", [anonymous_user_id])
                            studentid = cursor.fetchone()
                            if studentid is None:
