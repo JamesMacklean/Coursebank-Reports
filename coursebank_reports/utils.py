@@ -349,7 +349,7 @@ def export_learner_pga(course_id, email_address=None):
     tnow = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.000Z')
     user_list = []
 
-    if course_id:
+    if course_id is not None:
             with connection.cursor() as cursor:
                    cursor.execute("Select id from submissions_studentitem where course_id = %s", [course_id])
                    studentitems = cursor.fetchall()

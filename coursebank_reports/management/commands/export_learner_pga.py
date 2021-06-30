@@ -28,11 +28,11 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        courseid = options.get('course', None)
+        course_id = options.get('course', None)
         email_address = options.get('email', None)
 
         try:
-            export_learner_pga(course_id = courseid, email_address=email_address)
+            export_learner_pga(course_id, email_address=email_address)
         except Exception as e:
             raise CommandError("Error in exporting learner pga: {}".format(str(e)))
         else:
