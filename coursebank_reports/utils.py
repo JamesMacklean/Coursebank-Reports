@@ -350,8 +350,15 @@ def export_learner_pga(course_id, email_address=None):
     user_list = []
     courseid = unicode(course_id)
 
+    student_name = "john"
+    student_username = "john"
+    student_email = "sampleemail"
+    attempt = 1
+    answer = "sample"
+    submission_date = "date"
+
     if courseid:
-            with connection.cursor() as cursor:
+            """with connection.cursor() as cursor:
                    cursor.execute("Select id from submissions_studentitem where course_id = %s", [courseid])
                    studentitems = cursor.fetchall()
 
@@ -401,7 +408,7 @@ def export_learner_pga(course_id, email_address=None):
                    with connection.cursor() as cursor:
                         cursor.execute("Select name from auth_userprofile where user_id = %s", [student_id])
                         studentname = cursor.fetchone()
-                        student_name = studentname[0]
+                        student_name = studentname[0]"""
 
                    user_list.append({
                         "fullname": student_name,
