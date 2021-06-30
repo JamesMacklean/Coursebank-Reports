@@ -367,7 +367,7 @@ def export_learner_pga(course_id, email_address=None):
                        item_id = items[0]
 
                        with connection.cursor() as cursor:
-                           cursor.execute("Select uuid from submissions_submission where student_item_id = %s", [item_id])
+                           cursor.execute("Select uuid from submissions_submission where student_item_id = %s", [items[0])
                            itemid = cursor.fetchone()
                            if itemid[0] is None:
                                item_uuid = "None"
