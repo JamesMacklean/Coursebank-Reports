@@ -396,7 +396,7 @@ def export_learner_pga(course_id, email_address=None):
                            if ans is None:
                                answer = "N/A"
                            else:
-                               answer = ans[0]
+                               answer = ans[1]
 
                        with connection.cursor() as cursor:
                            cursor.execute("Select student_id from submissions_studentitem where id = %s AND course_id = %s", [item_id, courseid])
