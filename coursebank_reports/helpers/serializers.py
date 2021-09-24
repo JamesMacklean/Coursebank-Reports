@@ -4,6 +4,7 @@ Serializers for Course Blocks related return objects.
 """
 from django.conf import settings
 from rest_framework import serializers
+from six import text_type
 # from rest_framework.reverse import reverse
 
 from lms.djangoapps.course_api.blocks.serializers import SUPPORTED_FIELDS
@@ -37,16 +38,16 @@ class BlockSerializer(serializers.Serializer):  # pylint: disable=abstract-metho
         """
         # create response data dict for basic fields
         data = {
-            'id': unicode(block_key),
-            'block_id': unicode(block_key.block_id),
+            'id': text_type(block_key),
+            'block_id': text_type(block_key.block_id),
             # 'lms_web_url': reverse(
             #     'jump_to',
-            #     kwargs={'course_id': unicode(block_key.course_key), 'location': unicode(block_key)},
+            #     kwargs={'course_id': text_type(block_key.course_key), 'location': text_type(block_key)},
             #     request=self.context['request'],
             # ),
             # 'student_view_url': reverse(
             #     'render_xblock',
-            #     kwargs={'usage_key_string': unicode(block_key)},
+            #     kwargs={'usage_key_string': text_type(block_key)},
             #     request=self.context['request'],
             # ),
         }
@@ -54,7 +55,7 @@ class BlockSerializer(serializers.Serializer):  # pylint: disable=abstract-metho
         # if settings.FEATURES.get("ENABLE_LTI_PROVIDER") and 'lti_url' in self.context['requested_fields']:
         #     data['lti_url'] = reverse(
         #         'lti_provider_launch',
-        #         kwargs={'course_id': unicode(block_key.course_key), 'usage_id': unicode(block_key)},
+        #         kwargs={'course_id': text_type(block_key.course_key), 'usage_id': text_type(block_key)},
         #         request=self.context['request'],
         #     )
 
@@ -74,7 +75,7 @@ class BlockSerializer(serializers.Serializer):  # pylint: disable=abstract-metho
         if 'children' in self.context['requested_fields']:
             children = self.context['block_structure'].get_children(block_key)
             if children:
-                data['children'] = [unicode(child) for child in children]
+                data['children'] = [text_type(child) for child in children]
 
         return data
 
@@ -92,6 +93,6 @@ class BlockDictSerializer(serializers.Serializer):  # pylint: disable=abstract-m
         Serialize to a dictionary of blocks keyed by the block's usage_key.
         """
         return {
-            unicode(block_key): BlockSerializer(block_key, context=self.context).data
+            text_type(block_key): BlockSerializer(block_key, context=self.context).data
             for block_key in structure
         }
