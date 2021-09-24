@@ -6,7 +6,7 @@ from django.conf import settings
 from rest_framework import serializers
 # from rest_framework.reverse import reverse
 
-from lms.djangoapps.course_api.blocks.transformers import SUPPORTED_FIELDS
+from lms.djangoapps.course_api.blocks.serializers import SUPPORTED_FIELDS
 
 
 class BlockSerializer(serializers.Serializer):  # pylint: disable=abstract-method
