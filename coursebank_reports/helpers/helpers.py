@@ -1,8 +1,9 @@
 from .utils import get_course_outline_block_tree
+from six import text_type
 
 def check_if_user_completed_course(user, course_id):
     try:
-        course_block_tree = get_course_outline_block_tree(user, course_id)
+        course_block_tree = get_course_outline_block_tree(user, text_type(course_id))
     except Exception as e:
         raise Exception("course_block_tree.ERROR: {}".format(str(e)))
 
