@@ -50,7 +50,7 @@ def export_learner_profiles_with_cohort(course_id, email_address=None):
             })
 
     file_name = '/home/ubuntu/tempfiles/export_learner_profiles_with_cohort_{}.csv'.format(tnow)
-    with open(file_name, mode='w') as csv_file:
+    with open(file_name, mode='wb') as csv_file:
         writer = unicodecsv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL,  encoding='utf-8')
         writer.writerow([
             'Full Name',
@@ -109,7 +109,7 @@ def export_learner_profiles(active, course_id, email_address=None):
                     "last_login": p.last_login,
                 })
         file_name = '/home/ubuntu/tempfiles/export_learner_profiles_{}.csv'.format(tnow)
-        with open(file_name, mode='w') as csv_file:
+        with open(file_name, mode='wb') as csv_file:
             writer = unicodecsv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL,  encoding='utf-8')
             writer.writerow([
                 'Student ID',
@@ -164,7 +164,7 @@ def export_learner_profiles(active, course_id, email_address=None):
                 "date_completed": date_completed
             })
         file_name = '/home/ubuntu/tempfiles/export_learner_profiles_{}.csv'.format(tnow)
-        with open(file_name, mode='w') as csv_file:
+        with open(file_name, mode='wb') as csv_file:
             writer = unicodecsv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL,  encoding='utf-8')
             writer.writerow([
                 'Student ID',
@@ -241,7 +241,7 @@ def export_learner_demographics(active, course_id, email_address=None):
                     "location": person_location,
                 })
         file_name = '/home/ubuntu/tempfiles/export_learner_profiles_{}.csv'.format(tnow)
-        with open(file_name, mode='w') as csv_file:
+        with open(file_name, mode='wb') as csv_file:
             writer = unicodecsv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL,  encoding='utf-8')
             writer.writerow([
                 'Student ID',
@@ -309,7 +309,7 @@ def export_learner_demographics(active, course_id, email_address=None):
                 "created": e.created,
             })
         file_name = '/home/ubuntu/tempfiles/export_learner_profiles_{}.csv'.format(tnow)
-        with open(file_name, mode='w') as csv_file:
+        with open(file_name, mode='wb') as csv_file:
             writer = unicodecsv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL,  encoding='utf-8')
             writer.writerow([
                 'Student ID',
@@ -450,7 +450,7 @@ def export_learner_pga(course_id, email_address=None):
 
 
             file_name = '/home/ubuntu/tempfiles/export_learner_profiles_{}.csv'.format(tnow)
-            with open(file_name, mode='w') as csv_file:
+            with open(file_name, mode='wb') as csv_file:
                    writer = unicodecsv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL,  encoding='utf-8')
                    writer.writerow([
                         'Full Name',
