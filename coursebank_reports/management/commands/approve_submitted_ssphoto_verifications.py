@@ -3,7 +3,7 @@ Django admin commands related to verify_student
 """
 
 from django.core.management.base import BaseCommand
-
+from django.db.models import Q
 from lms.djangoapps.verify_student.models import SoftwareSecurePhotoVerification
 
 import datetime
@@ -24,8 +24,8 @@ class Command(BaseCommand):
         Verifies users who have SoftwareSecurePhotoVerifications that have *submitted* status.
         """
 
-        submitted_verifications = SoftwareSecurePhotoVerification.objects.filter(
-            status='submitted'
+        submitted_verifications = SoftwareSecurePhotoVerification.objects.exclude(
+            status = 'approved'
         )
 
         if not submitted_verifications.exists():
