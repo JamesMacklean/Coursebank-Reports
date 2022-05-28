@@ -24,13 +24,12 @@ class Command(BaseCommand):
         Verifies users who have SoftwareSecurePhotoVerifications that have *submitted* status.
         """
         
-        # IBALIK ITO SA 
-        # submitted_verifications = SoftwareSecurePhotoVerification.objects.filter(
-        #     status = 'ready'
-        # )
-        submitted_verifications = SoftwareSecurePhotoVerification.objects.exclude(
-            status = 'approved'
+        submitted_verifications = SoftwareSecurePhotoVerification.objects.filter(
+            status = 'ready'
         )
+        # submitted_verifications = SoftwareSecurePhotoVerification.objects.exclude(
+        #     status = 'approved'
+        # )
 
         if not submitted_verifications.exists():
             msg = "No verifications to approve."
