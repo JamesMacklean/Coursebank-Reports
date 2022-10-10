@@ -7,7 +7,7 @@ log = logging.getLogger(__name__)
 
 from django.core.management.base import BaseCommand, CommandError
 
-from coursebank_reports.utils import export_daily_active_users
+from coursebank_reports.utils import export_todays_active_users
 
 
 class Command(BaseCommand):
@@ -39,7 +39,7 @@ class Command(BaseCommand):
         active = options.get('isactive',None)
 
         try:
-            export_daily_active_users(active, course_id, email_address=email_address)
+            export_todays_active_users(active, course_id, email_address=email_address)
         except Exception as e:
             raise CommandError("Error in exporting active users: {}".format(str(e)))
         else:
