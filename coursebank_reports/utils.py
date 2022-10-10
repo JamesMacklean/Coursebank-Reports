@@ -1,5 +1,6 @@
 import csv
 from datetime import datetime
+from time import strftime
 from django.utils import timezone
 import logging
 import unicodecsv
@@ -482,3 +483,140 @@ def export_learner_pga(course_id, email_address=None):
                    )
                    email.attach_file(file_name)
                    email.send()
+
+def export_daily_active_users(active, course_id, email_address=None):
+    """"""
+    tnow = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.000Z')
+    dateNow = datetime.now().strftime('%Y-%m-%d')
+    user_list = []
+
+    # KAPAG WALANG ININDICATE NA COURSE
+    if course_id is None:
+        if active == "yes":
+          profiles = User.objects.filter(is_active=True)
+        else:
+          profiles = User.objects.all()
+
+        for p in profiles:
+            
+            user_last_login = p.last_login.strftime('%Y-%m-%d')
+            
+            if user_last_login == dateNow:
+                try:
+                    user_list.append({
+                        "datenow": dateNow,
+                        "studentid": p.id,
+                        "name": p.profile.name,
+                        "username": p.username,
+                        "email": p.email,
+                        "created": p.date_joined,
+                        "last_login": p.last_login,
+                    })
+                except UserProfile.DoesNotExist:
+                    user_list.append({
+                        "datenow": dateNow,
+                        "studentid": p.id,
+                        "name": p.username,
+                        "username": p.username,
+                        "email": p.email,
+                        "created": p.date_joined,
+                        "last_login": p.last_login,
+                    })
+
+        file_name = '/home/ubuntu/tempfiles/export_daily_active_users_{}.csv'.format(tnow)
+        with open(file_name, mode='wb') as csv_file:
+            writer = unicodecsv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL,  encoding='utf-8')
+            writer.writerow([
+                'Today',
+                'Student ID',
+                'Full Name',
+                'Username',
+                'Email',
+                'Created',
+                'Last Login'
+                ])
+
+            for u in user_list:
+                writer.writerow([
+                    u['datenow'],
+                    u['studentid'],
+                    u['name'],
+                    u['username'],
+                    u['email'],
+                    u['created'],
+                    u['last_login'],
+                    ])
+
+        if email_address:
+            email = EmailMessage(
+                'Coursebank - Daily Active Users',
+                "Attached file of Today's Active Users (as of {})".format(tnow),
+                'no-reply-learner-profiles@coursebank.ph',
+                [email_address,],
+            )
+            email.attach_file(file_name)
+            email.send()
+
+    # KUNG MAY ININDICATE NA COURSE
+    else:
+        course_key = CourseKey.from_string(course_id)
+        enrollments = CourseEnrollment.objects.filter(
+            course_id=course_key,
+            is_active=True
+        )
+
+        for e in enrollments:
+            cert = get_certificate_for_user(e.user.username, course_key)
+            if cert is not None and cert['status'] == "downloadable":
+                date_completed = cert['created'].strftime('%Y-%m-%dT%H:%M:%S.000Z')
+            else:
+                date_completed = ""
+        
+            user_last_login = e.user.last_login.strftime('%Y-%m-%d')
+            if user_last_login == dateNow:
+                user_list.append({
+                    "datenow": dateNow,
+                    "studentid": e.user.id,
+                    "name": e.user.profile.name,
+                    "username": e.user.username,
+                    "email": e.user.email,
+                    "created": e.created,
+                    "last_login": e.user.last_login,
+                    "date_completed": date_completed
+                })
+
+        file_name = '/home/ubuntu/tempfiles/export_daily_active_users_{}.csv'.format(tnow)
+        with open(file_name, mode='wb') as csv_file:
+            writer = unicodecsv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL,  encoding='utf-8')
+            writer.writerow([
+                'Today',
+                'Student ID',
+                'Full Name',
+                'Username',
+                'Email',
+                'Date Enrolled',
+                'Last Login',
+                'Date Completed',
+                ])
+
+            for u in user_list:
+                writer.writerow([
+                    u['datenow'],
+                    u['studentid'],
+                    u['name'],
+                    u['username'],
+                    u['email'],
+                    u['created'],
+                    u['last_login'],
+                    u['date_completed']
+                    ])
+
+        if email_address:
+            email = EmailMessage(
+                'Coursebank - Daily Active Users',
+                "Attached file of Today's Active Users (as of {})".format(tnow),
+                'no-reply-learner-profiles@coursebank.ph',
+                [email_address,],
+            )
+            email.attach_file(file_name)
+            email.send()
