@@ -497,8 +497,10 @@ def export_todays_active_users(active, course_id, email_address=None):
         else:
           profiles = User.objects.all()
 
+        counter = 0
         for p in profiles:
             
+            counter = counter+1
             if p.last_login:
                 user_last_login = p.last_login.strftime('%Y-%m-%d')
             else:
@@ -506,6 +508,7 @@ def export_todays_active_users(active, course_id, email_address=None):
 
             if user_last_login == dateNow:
                 try:
+                    
                     user_list.append({
                         "datenow": dateNow,
                         "studentid": p.id,
@@ -515,7 +518,9 @@ def export_todays_active_users(active, course_id, email_address=None):
                         "created": p.date_joined,
                         "last_login": p.last_login,
                     })
+
                 except UserProfile.DoesNotExist:
+                    
                     user_list.append({
                         "datenow": dateNow,
                         "studentid": p.id,
@@ -525,30 +530,31 @@ def export_todays_active_users(active, course_id, email_address=None):
                         "created": p.date_joined,
                         "last_login": p.last_login,
                     })
+        
+        # TO SEND TO EMAIL
+        # file_name = '/home/ubuntu/tempfiles/export_todays_active_users_{}.csv'.format(tnow)
+        # with open(file_name, mode='wb') as csv_file:
+        #     writer = unicodecsv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL,  encoding='utf-8')
+        #     writer.writerow([
+        #         'Today',
+        #         'Student ID',
+        #         'Full Name',
+        #         'Username',
+        #         'Email',
+        #         'Created',
+        #         'Last Login'
+        #         ])
 
-        file_name = '/home/ubuntu/tempfiles/export_todays_active_users_{}.csv'.format(tnow)
-        with open(file_name, mode='wb') as csv_file:
-            writer = unicodecsv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL,  encoding='utf-8')
-            writer.writerow([
-                'Today',
-                'Student ID',
-                'Full Name',
-                'Username',
-                'Email',
-                'Created',
-                'Last Login'
-                ])
-
-            for u in user_list:
-                writer.writerow([
-                    u['datenow'],
-                    u['studentid'],
-                    u['name'],
-                    u['username'],
-                    u['email'],
-                    u['created'],
-                    u['last_login'],
-                    ])
+        #     for u in user_list:
+        #         writer.writerow([
+        #             u['datenow'],
+        #             u['studentid'],
+        #             u['name'],
+        #             u['username'],
+        #             u['email'],
+        #             u['created'],
+        #             u['last_login'],
+        #             ])
 
         if email_address:
             email = EmailMessage(
@@ -568,7 +574,9 @@ def export_todays_active_users(active, course_id, email_address=None):
             is_active=True
         )
 
+        counter = 0
         for e in enrollments:
+            counter = counter+1
             cert = get_certificate_for_user(e.user.username, course_key)
             if cert is not None and cert['status'] == "downloadable":
                 date_completed = cert['created'].strftime('%Y-%m-%dT%H:%M:%S.000Z')
