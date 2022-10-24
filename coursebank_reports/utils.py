@@ -532,29 +532,29 @@ def export_todays_active_users(active, course_id, email_address=None):
                     })
         
         # TO SEND TO EMAIL
-        # file_name = '/home/ubuntu/tempfiles/export_todays_active_users_{}.csv'.format(tnow)
-        # with open(file_name, mode='wb') as csv_file:
-        #     writer = unicodecsv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL,  encoding='utf-8')
-        #     writer.writerow([
-        #         'Today',
-        #         'Student ID',
-        #         'Full Name',
-        #         'Username',
-        #         'Email',
-        #         'Created',
-        #         'Last Login'
-        #         ])
+        file_name = '/home/ubuntu/tempfiles/export_todays_active_users_{}.csv'.format(tnow)
+        with open(file_name, mode='wb') as csv_file:
+            writer = unicodecsv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL,  encoding='utf-8')
+            writer.writerow([
+                'Today',
+                'Student ID',
+                'Full Name',
+                'Username',
+                'Email',
+                'Created',
+                'Last Login'
+                ])
 
-        #     for u in user_list:
-        #         writer.writerow([
-        #             u['datenow'],
-        #             u['studentid'],
-        #             u['name'],
-        #             u['username'],
-        #             u['email'],
-        #             u['created'],
-        #             u['last_login'],
-        #             ])
+            for u in user_list:
+                writer.writerow([
+                    u['datenow'],
+                    u['studentid'],
+                    u['name'],
+                    u['username'],
+                    u['email'],
+                    u['created'],
+                    u['last_login'],
+                    ])
 
         if email_address:
             email = EmailMessage(
